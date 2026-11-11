@@ -55,3 +55,5 @@ cd deck/lib && npm ci && cd ..
 node serve.mjs 8765   # live preview at http://localhost:8765
 node build.mjs        # writes the single-file deck.html
 ```
+
+While presenting, press `S` for the speaker view (notes, next slide, timer). Press `C` to draw on a slide and `B` for a blank whiteboard; on a touch screen, use the toolbar in the bottom-left corner.

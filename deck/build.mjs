@@ -10,7 +10,7 @@
 // what makes it pleasant to edit. This script is the other end of that trade.
 // Edit the sections, then re-run this. Never edit deck.html by hand.
 
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -69,10 +69,29 @@ async function inlineImages(html) {
 // The UMD build, not the .mjs one. An inline <script type="module"> is subject
 // to CORS on a file:// URL, so the module build would not run off the disk.
 const reveal = await text(p('lib/node_modules/reveal.js/dist/reveal.js'));
+const notes = await text(p('lib/node_modules/reveal.js/dist/plugin/notes.js'));
+
+// Whiteboard. The chalkboard plugin builds image URLs as path + 'img/x.png',
+// where path comes from its own <script src>. Inlined, it has no src, so every
+// such URL is rewritten to a lookup in WHITEBOARD_IMG, which holds data URIs.
+// plugins/whiteboard.js reads the same map for the pens it configures.
+const CHALK = 'lib/node_modules/reveal.js-plugins/chalkboard';
+const chalkImg = {};
+for (const f of await readdir(p(CHALK, 'img'))) chalkImg[f] = `data:image/png;base64,${await b64(p(CHALK, 'img', f))}`;
+let chalkboard = await text(p(CHALK, 'plugin.js'));
+// The match stops after the file name, so 'url(' + path + 'img/x.png), auto'
+// keeps its tail: it becomes 'url(' + WHITEBOARD_IMG['x.png'] + '), auto'.
+chalkboard = chalkboard.replace(/path \+ 'img\/([\w-]+\.png)/g, (_, f) => {
+  if (!chalkImg[f]) throw new Error(`chalkboard wants img/${f}, which is not in ${CHALK}/img`);
+  return `window.WHITEBOARD_IMG['${f}'] + '`;
+});
+if (/path \+ ['"]img/.test(chalkboard)) throw new Error('chalkboard has an image path build.mjs did not rewrite');
+const whiteboard = await text(p('plugins/whiteboard.js'));
 const css = [
   await text(p('lib/node_modules/reveal.js/dist/reset.css')),
   await text(p('lib/node_modules/reveal.js/dist/reveal.css')),
   await fontFaces(),
+  await text(p(CHALK, 'style.css')),
   await text(p('css/custom.css')),
 ].join('\n');
 
@@ -105,6 +124,18 @@ ${slides}
 ${reveal}
 </script>
 <script>
+${notes}
+</script>
+<script>
+window.WHITEBOARD_IMG = ${JSON.stringify(chalkImg)};
+</script>
+<script>
+${chalkboard}
+</script>
+<script>
+${whiteboard}
+</script>
+<script>
   Reveal.initialize({
     width: 1280,
     height: 720,
@@ -121,6 +152,8 @@ ${reveal}
     slideNumber: 'c/t',
     transition: 'fade',
     transitionSpeed: 'fast',
+    chalkboard: RevealWhiteboard.config(),
+    plugins: [RevealNotes, RevealChalkboard, RevealWhiteboard],
   });
 </script>
 

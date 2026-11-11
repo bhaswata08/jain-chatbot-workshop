@@ -154,9 +154,10 @@
 <section class="act-body">
   <div class="act-tag"><b>Act 5</b> / Attempt 1 · 1 of 3</div>
   <h2>You pay for every token</h2>
-  <div class="cols meme-cols">
-    <img class="meme-img" src="assets/memes/aint-reading-all-that.png" alt="Chat screenshot: a huge wall of campus gossip, answered with: i ain't reading all that, i'm happy for u tho, or sorry that happened" style="max-height:575px">
-    <div class="beat breaks"><h4>1. Cost</h4><p>Every question re-sends the whole knowledge base.</p><span class="no">~90,000 tokens to answer one line about refunds.</span></div>
+  <div class="cols meme-sandwich">
+    <img class="meme-img" src="assets/memes/aint-reading-all-that-crop.png" alt="Chat screenshot: the end of a huge wall of campus gossip, answered with: i ain't reading all that, i'm happy for u tho, or sorry that happened">
+    <div class="beat breaks"><h4>1. Cost</h4><p>Every question re&#8209;sends the whole knowledge base.</p><span class="no">~90,000 tokens to answer one line about refunds.</span></div>
+    <img class="meme-img" src="assets/memes/aint-nobody-got-time.png" alt="Sweet Brown: Ain't nobody got time for that">
   </div>
 </section>
 
@@ -176,6 +177,7 @@
     <img class="meme-img" src="assets/memes/shape-sorter.png" alt="Wojak-style figure forcing every shaped block into the same long shape-sorter, with an arm stretched across the whole row" style="max-height:360px">
     <div class="beat breaks"><h4>3. Context rot</h4><p>The longer the input, the worse the model gets, even at easy tasks.</p><span class="no">Paste all 129 pages and the refund table is a needle in ~90,000 tokens.</span></div>
   </div>
+  <aside class="notes">"Imagine giving a student 129 PDFs the night before an exam. Not only will they not read them, they will somehow get less intelligent."</aside>
 </section>
 
 <!-- 5.4 Context rot. Figure lifted from the Chroma report, not redrawn.
@@ -254,6 +256,9 @@
       <text x="250" y="270" fill="#a7b0be" font-size="22" font-family="Inter">hostel &amp; campus</text>
       <circle cx="175" cy="170" r="13" fill="none" stroke="#f0a35e" stroke-width="4"/>
       <text x="200" y="205" fill="#f0a35e" font-size="22" font-family="Inter">"can I get my fee back?"</text>
+      <g fill="#4a5363"><circle cx="520" cy="300" r="7"/><circle cx="548" cy="318" r="7"/></g>
+      <text x="500" y="282" fill="#5d6778" font-size="17" font-family="Inter" text-anchor="middle">8:30 AM lecture</text>
+      <text x="560" y="350" fill="#5d6778" font-size="17" font-family="Inter" text-anchor="middle">sleep deprivation</text>
     </svg>
     <div>
       <p>Similar meaning → nearby points, even with <em>no shared words</em>.</p>
@@ -273,13 +278,14 @@
     <span class="c hit">top k</span>
   </div>
   <table>
-    <tr><th>Document</th><th>Cosine similarity</th></tr>
-    <tr><td>Refund rules: deduction by date</td><td class="num">0.71</td></tr>
-    <tr><td>Admission cancellation procedure</td><td class="num">0.64</td></tr>
-    <tr><td>Scholarships offered</td><td class="num">0.38</td></tr>
-    <tr><td>Hostel facilities</td><td class="num">0.09</td></tr>
+    <tr><th>Question: <em>"can I get my fee back?"</em></th><th>Cosine similarity</th></tr>
+    <tr><td>Refund rules: deduction by date</td><td class="num fragment" data-fragment-index="1">0.71</td></tr>
+    <tr><td>Admission cancellation procedure</td><td class="num fragment" data-fragment-index="1">0.64</td></tr>
+    <tr><td>Scholarships offered</td><td class="num fragment" data-fragment-index="1">0.38</td></tr>
+    <tr><td>Hostel facilities</td><td class="num fragment" data-fragment-index="1">0.09</td></tr>
   </table>
-  <p class="say">1 = same direction (same meaning). 0 = unrelated.</p>
+  <p class="say"><em>Vote first:</em> rank the four. 1 = same meaning. 0 = unrelated.</p>
+  <aside class="notes">Show of hands before revealing the scores: which document is closest, and which is last? Then reveal. Point out "Admission cancellation" scores high with no shared words.</aside>
   <p class="src">Scores illustrative. You will see real ones in the lab.</p>
 </section>
 
@@ -350,23 +356,20 @@
         <div class="ln h"><span class="k1">Fees</span></div>
         <div class="ln"><span class="k1">Tuition: ₹2.5 lakh a year.</span></div>
         <div class="ln"><span class="k1">Hostel: </span><span class="ov">₹1 la</span><i class="cut" style="--d:1.2s"></i><span class="k2">kh more.</span></div>
-        <div class="ln h"><span class="k2">Eligibility</span></div>
-        <div class="ln"><span class="k2">60% in PCM.</span></div>
-        <div class="ln"><span class="k2">Admission </span><span class="ov ov2">thr</span><i class="cut" style="--d:2.4s"></i><span class="k3">ough JET.</span></div>
-        <div class="ln"><span class="k3">Lateral entry: diploma.</span></div>
+        <div class="ln h"><span class="k2">Attendance</span></div>
+        <div class="ln"><span class="k2">You can sit the semester-end exam</span></div>
+        <div class="ln"><span class="ov ov2">on</span><i class="cut" style="--d:2.4s"></i><span class="k3">ly with 75% attendance.</span></div>
       </div>
-      <span class="note">Simple. Cuts mid-sentence.</span></div>
+      <span class="note">Chunk 2 alone: "you can sit the exam."</span></div>
     <div class="beat purpose"><h4>Recursive</h4><p>Split on headings, then paragraphs, then sentences, until it fits.</p>
       <div class="cut-demo rec fragment custom">
         <div class="ln h"><span class="k1">Fees</span></div>
         <div class="ln"><span class="k1">Tuition: ₹2.5 lakh a year.</span></div>
         <div class="ln"><span class="k1">Hostel: ₹1 lakh more.</span></div>
         <div class="gap cut" style="--d:0s"><b>heading</b></div>
-        <div class="ln h"><span class="k2">Eligibility</span></div>
-        <div class="ln"><span class="k2">60% in PCM.</span></div>
-        <div class="ln"><span class="k2">Admission through JET.</span></div>
-        <div class="gap cut" style="--d:1.6s"><b>too big: sentence</b></div>
-        <div class="ln"><span class="k2 then3">Lateral entry: diploma.</span></div>
+        <div class="ln h"><span class="k2">Attendance</span></div>
+        <div class="ln"><span class="k2">You can sit the semester-end exam</span></div>
+        <div class="ln"><span class="k2">only with 75% attendance.</span></div>
       </div>
       <span class="note">The usual default.</span></div>
     <div class="beat purpose"><h4>Semantic</h4><p>Cut where the meaning shifts, using embeddings.</p>
@@ -375,13 +378,14 @@
         <div class="ln"><span class="k1 late">Tuition: ₹2.5 lakh a year.</span><span class="sim" style="--d:0s">0.82</span></div>
         <div class="ln"><span class="k1 late">Hostel: ₹1 lakh more.</span><span class="sim low" style="--d:0.5s">0.19</span></div>
         <div class="gap cut" style="--d:2.2s"><b>meaning shifts</b></div>
-        <div class="ln h"><span class="k2 late">Eligibility</span></div>
-        <div class="ln"><span class="k2 late">60% in PCM.</span><span class="sim" style="--d:1s">0.74</span></div>
-        <div class="ln"><span class="k2 late">Admission through JET.</span><span class="sim" style="--d:1.5s">0.71</span></div>
-        <div class="ln"><span class="k2 late">Lateral entry: diploma.</span></div>
+        <div class="ln h"><span class="k2 late">Attendance</span></div>
+        <div class="ln"><span class="k2 late">You can sit the semester-end exam</span></div>
+        <div class="ln"><span class="k2 late">only with 75% attendance.</span></div>
       </div>
       <span class="note">Best chunks, slowest to build.</span></div>
   </div>
+  <p class="src">Attendance rule: jainuniversity.ac.in · Student conduct policy · fetched 5 Nov 2026</p>
+  <aside class="notes">The fixed-size cut lands between "on" and "ly". Ask the bot "Can I write the exam with 60% attendance?" and if only chunk 2 comes back, the answer is yes. The real rule (75% minimum, condonation down from 85%) is in chunk 3. Recursive and semantic keep the sentence whole.</aside>
 </section>
 
 <!-- 5.9 Vector store. Where the vectors live. -->
@@ -395,9 +399,12 @@
 <section class="act-body">
   <div class="act-tag"><b>Act 5</b> / Vector store</div>
   <h2>Where do the vectors live?</h2>
-  <div class="beats two">
+  <div class="cols meme-cols">
+  <div class="beats stack">
     <div class="beat breaks"><h4>A NumPy array</h4><p>Fine for a handful of documents. Honestly, use it.</p><span class="no">At thousands: how do you update one page? Delete ten? Filter by category? Save it?</span></div>
     <div class="beat anchor"><h4>A vector store</h4><p>A database built for vectors: add, update, delete by id, filter by metadata, fast search.</p><span class="note">Chroma, Qdrant, pgvector, LanceDB</span></div>
+  </div>
+  <img class="meme-img" src="assets/memes/doge-vector-store.png" alt="Buff Doge vs Cheems. Buff Doge, vector store: add, update, delete by id, filter, ten thousand pages. Cheems, NumPy array in a pickle file: how do I delete one page, it works on my laptop." style="max-height:400px">
   </div>
   <p class="say">Same idea as any database: <em>CRUD</em>, just for vectors.</p>
 </section>
@@ -417,6 +424,22 @@
   <p class="say">This half runs while the student <em>waits</em>.</p>
 </section>
 
+<!-- 5.10b Replay: the Act 1 question through the finished pipeline.
+     Answer and source match slide "Same question, our bot". -->
+<section class="act-body">
+  <div class="act-tag"><b>Act 5</b> / Replay</div>
+  <h2>The Act 1 question, box by box</h2>
+  <div class="ladder">
+    <div class="rung"><span class="k">Query</span><span class="d">"Joined BCA, cancelling 20 days after the last date. How much back?"</span></div>
+    <div class="rung fragment"><span class="k">Rewrite</span><span class="d"><code>"admission cancellation refund, 16–30 days after last date"</code></span></div>
+    <div class="rung fragment"><span class="k">Retrieve</span><span class="d">cancellation-and-refund-rules · the deduction table</span></div>
+    <div class="rung fragment"><span class="k">Context</span><span class="d"><code>&lt;doc source="cancellation-and-refund-rules"&gt;</code></span></div>
+    <div class="rung fragment"><span class="k">Answer</span><span class="d">50% deduction. <em>Source: refund rules.</em></span></div>
+  </div>
+  <p class="say">Same intern. This time it <em>has the page</em>.</p>
+  <aside class="notes">Walk it box by box and ask the room what each box does before revealing it. Same model as Act 1, same question, right answer.</aside>
+</section>
+
 <!-- 5.11 Query transformation. -->
 <section class="act-body">
   <div class="act-tag"><b>Act 5</b> / Query transformation</div>
@@ -429,9 +452,9 @@
   <div class="act-tag"><b>Act 5</b> / Query transformation</div>
   <h2>Users don't write good queries</h2>
   <div class="ladder">
-    <div class="rung"><span class="k">Raw</span><span class="d"><code>"refund??"</code></span></div>
-    <div class="rung"><span class="k">Rewrite</span><span class="d"><code>"admission cancellation refund deduction, 20 days after last date"</code></span></div>
-    <div class="rung"><span class="k">Clarify</span><span class="d">"Which programme? BCA and BBA have different last dates."</span></div>
+    <div class="rung"><span class="k">Raw</span><span class="d"><code>"bro how to get money back fast parents will kill me"</code> <span class="muted small">· 2:14 AM</span></span></div>
+    <div class="rung"><span class="k">Rewrite</span><span class="d"><code>"admission cancellation refund deduction rules"</code></span></div>
+    <div class="rung"><span class="k">Clarify</span><span class="d">"Which programme, and how many days after the last date? Also, take a deep breath."</span></div>
   </div>
 </section>
 
@@ -446,6 +469,7 @@
 <section class="act-body" id="four-ways">
   <div class="act-tag"><b>Act 5</b> / Retrieval method</div>
   <h2>Four ways to fetch</h2>
+  <aside class="notes">Before each fragment: "BCA fees" vs "computer course fees". Which method finds which? Let them guess, then reveal.</aside>
   <div class="beats four fetch">
     <div class="beat purpose"><h4>Dense</h4><p>Cosine on embeddings. Finds meaning.</p>
       <div class="demo dense fragment">
@@ -556,8 +580,9 @@ Cite the <span class="k">source</span> of every fact.
   <h2>RAG is not magic</h2>
   <div class="beats">
     <div class="beat breaks"><h4>Wrong chunk</h4><p>Search returns the PhD refund table for a BCA question.</p><span class="no">The answer is fluent and wrong again.</span></div>
-    <div class="beat breaks"><h4>Not in the pages</h4><p>"Is the canteen open on Sunday?"</p><span class="no">Without the "I don't know" rule, it guesses.</span></div>
+    <div class="beat breaks"><h4>Not in the pages</h4><p>"Will the HOD sign my attendance form if I look really sad?"</p><span class="no">Without the "I don't know" rule, it says yes.</span></div>
     <div class="beat breaks"><h4>Stale data</h4><p>Our snapshot is from 5 Nov 2026.</p><span class="no">Fees change. Re-run ingestion.</span></div>
   </div>
-  <p class="say">Always show the <em>source</em> so a human can check.</p>
+  <p class="say">RAG doesn't eliminate stupidity. It gives stupidity <em>better references</em>.</p>
+  <aside class="notes">On the HOD one: "The bot will confidently say yes, and we will not bail you out." Then: always show the source so a human can check.</aside>
 </section>

@@ -13,6 +13,7 @@
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
     "@fontsource/jetbrains-mono": "^5.3.0",
-    "reveal.js": "^6.0.2"
+    "reveal.js": "^6.0.2",
+    "reveal.js-plugins": "^4.6.0"
   }
 }

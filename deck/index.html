@@ -15,6 +15,7 @@
 
   <link rel="stylesheet" href="lib/node_modules/reveal.js/dist/reset.css">
   <link rel="stylesheet" href="lib/node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="lib/node_modules/reveal.js-plugins/chalkboard/style.css">
   <link rel="stylesheet" href="css/custom.css">
 </head>
 <body>
@@ -25,8 +26,13 @@
   </div>
 </div>
 
+<!-- Classic scripts, so they run before the module below. The chalkboard
+     plugin locates its images from its own src, which a module import hides. -->
+<script src="lib/node_modules/reveal.js-plugins/chalkboard/plugin.js"></script>
+<script src="plugins/whiteboard.js"></script>
 <script type="module">
   import Reveal from './lib/node_modules/reveal.js/dist/reveal.mjs';
+  import RevealNotes from './lib/node_modules/reveal.js/dist/plugin/notes.mjs';
 
   // The running order. Add acts here as they get built. Commented lines are
   // planned but not written yet, so the plan stays visible.
@@ -60,6 +66,11 @@
     slideNumber: 'c/t',
     transition: 'fade',
     transitionSpeed: 'fast',
+    // Press S for the speaker view: notes, next slide, timer.
+    // C draws on the slide, B opens a whiteboard. plugins/whiteboard.js adds
+    // touch buttons for both, plus fullscreen.
+    chalkboard: RevealWhiteboard.config(),
+    plugins: [RevealNotes, RevealChalkboard, RevealWhiteboard],
   });
 </script>
 
