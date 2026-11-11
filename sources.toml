@@ -1,0 +1,155 @@
+# Public JAIN University pages for the workshop knowledge base.
+# Each [[page]] is fetched and its main text extracted. Add `extract = "full"`
+# for pages whose facts sit in small cards (contacts, stats) that main-text
+# extraction drops; that keeps all visible text minus header, nav and footer.
+# Each [[text_dir]] is an Apache-style directory listing of .txt files
+# that the university publishes for LLMs (allowed in robots.txt); every .txt
+# in it, and in its subfolders, is collected as-is.
+#
+# robots.txt on these hosts disallows *.pdf, /naac, /news/, /events/ and
+# query-string URLs, so none of those appear here and the collector refuses them.
+
+[[text_dir]]
+url = "https://www.jainuniversity.ac.in/llms-ju/"
+category = "programs"
+
+[[text_dir]]
+url = "https://scsit.jainuniversity.ac.in/llms-scsit/"
+category = "programs-cs-it"
+
+# --- Current students -------------------------------------------------------
+[[page]]
+url = "https://www.jainuniversity.ac.in/current-student"
+extract = "full"
+category = "student-life"
+[[page]]
+url = "https://www.jainuniversity.ac.in/current-student/student-support"
+category = "student-life"
+[[page]]
+url = "https://www.jainuniversity.ac.in/current-student/health-and-wellbeing"
+category = "student-life"
+[[page]]
+url = "https://www.jainuniversity.ac.in/current-student/getting-involved"
+category = "student-life"
+[[page]]
+url = "https://www.jainuniversity.ac.in/current-student/events-and-culture"
+category = "student-life"
+[[page]]
+url = "https://www.jainuniversity.ac.in/current-student/student-conduct-policy"
+category = "policies"
+[[page]]
+url = "https://www.jainuniversity.ac.in/current-student/library-policy"
+category = "policies"
+[[page]]
+url = "https://www.jainuniversity.ac.in/about/vishwas-counseling-center"
+category = "student-life"
+[[page]]
+url = "https://www.jainuniversity.ac.in/about/university-services"
+category = "campus"
+
+# --- Campus, hostel, contacts ----------------------------------------------
+[[page]]
+url = "https://www.jainuniversity.ac.in/contact/hostel-accomodation"
+category = "campus"
+[[page]]
+url = "https://www.jainuniversity.ac.in/contact/other-contacts"
+category = "contacts"
+[[page]]
+url = "https://www.jainuniversity.ac.in/contact/admissions-office"
+category = "contacts"
+[[page]]
+url = "https://www.jainuniversity.ac.in/contact/best-colleges-with-best-study-campus"
+category = "campus"
+
+# --- Admissions, fees, scholarships ----------------------------------------
+[[page]]
+url = "https://www.jainuniversity.ac.in/admission"
+extract = "full"
+category = "admissions"
+[[page]]
+url = "https://www.jainuniversity.ac.in/admission/eligibility-criteria-for-UG-admissions"
+category = "admissions"
+[[page]]
+url = "https://www.jainuniversity.ac.in/admission/eligibility-criteria-for-PG-admissions"
+category = "admissions"
+[[page]]
+url = "https://www.jainuniversity.ac.in/admission/cancellation-and-refund-rules"
+category = "fees"
+[[page]]
+url = "https://www.jainuniversity.ac.in/academics/scholarships-offered-in-india"
+category = "fees"
+
+# --- Academics ---------------------------------------------------------------
+[[page]]
+url = "https://www.jainuniversity.ac.in/academics/nep"
+category = "academics"
+[[page]]
+url = "https://www.jainuniversity.ac.in/academics/undergraduate-programs-in-bangalore"
+category = "academics"
+[[page]]
+url = "https://www.jainuniversity.ac.in/academics/postgraduate-programs-in-bangalore"
+category = "academics"
+[[page]]
+url = "https://www.jainuniversity.ac.in/programs/top-universities-for-applied-computing-programs"
+category = "academics"
+[[page]]
+url = "https://www.jainuniversity.ac.in/program/science/computer-science"
+category = "academics"
+
+# --- School of Computer Science & IT (BCA / MCA) ---------------------------
+[[page]]
+url = "https://scsit.jainuniversity.ac.in/"
+category = "scsit"
+[[page]]
+url = "https://scsit.jainuniversity.ac.in/programmes"
+extract = "full"
+category = "scsit"
+[[page]]
+url = "https://scsit.jainuniversity.ac.in/undergraduate-programs/bachelor-of-computer-application/"
+category = "scsit"
+[[page]]
+url = "https://scsit.jainuniversity.ac.in/postgraduate-programs/master-of-computer-application/"
+category = "scsit"
+[[page]]
+url = "https://scsit.jainuniversity.ac.in/programme/bca-general"
+category = "scsit"
+[[page]]
+url = "https://scsit.jainuniversity.ac.in/programme/bca-full-stack-development"
+category = "scsit"
+[[page]]
+url = "https://scsit.jainuniversity.ac.in/programme/master-of-computer-applications-with-electives"
+category = "scsit"
+[[page]]
+url = "https://scsit.jainuniversity.ac.in/programme/best-mca-artificial-intelligence-machine-learning-colleges-in-bangalore"
+category = "scsit"
+[[page]]
+url = "https://scsit.jainuniversity.ac.in/placements"
+category = "scsit"
+[[page]]
+url = "https://scsit.jainuniversity.ac.in/students-achievements"
+category = "scsit"
+
+# --- About the university & placements -------------------------------------
+[[page]]
+url = "https://www.jainuniversity.ac.in/about"
+category = "about"
+[[page]]
+url = "https://www.jainuniversity.ac.in/about/university-vision-mission"
+category = "about"
+[[page]]
+url = "https://www.jainuniversity.ac.in/about/principal-officers"
+category = "about"
+[[page]]
+url = "https://www.jainuniversity.ac.in/about/rankings-and-recognitions"
+extract = "full"
+category = "about"
+[[page]]
+url = "https://www.jainuniversity.ac.in/placements"
+extract = "full"
+category = "placements"
+[[page]]
+url = "https://www.jainuniversity.ac.in/placements/overview"
+category = "placements"
+[[page]]
+url = "https://www.jainuniversity.ac.in/placements/placement-process"
+category = "placements"

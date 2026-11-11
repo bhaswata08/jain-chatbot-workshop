@@ -1,0 +1,73 @@
+<!-- ============================================================
+     ACT 3. Talking to an LLM from code.
+     Goal: students recognise every line of the first lab cell:
+     client, model, messages (system/user/assistant), the reply.
+     Model id: check console.groq.com/docs/models on the day and
+     update both this slide and the lab notebook together.
+     Act 5 owns putting documents into the prompt. Here the system
+     prompt only changes tone/rules.
+     ============================================================ -->
+
+<section class="act-open">
+  <div class="act-num">Act 3</div>
+  <h1>Talking to an LLM<br>from code</h1>
+  <p class="act-sub">An LLM is just an HTTP API. Text in, text out.</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 3</b> / The whole thing</div>
+  <h2>Your first call: 8 lines</h2>
+<pre class="code"><span class="k">from</span> groq <span class="k">import</span> Groq
+
+client = Groq(api_key=GROQ_API_KEY)          <span class="c"># never paste the key in shared code</span>
+
+reply = client.chat.completions.create(
+    model=<span class="s">"openai/gpt-oss-20b"</span>,
+    messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"Who are you?"</span>}],
+)
+print(reply.choices[0].message.content)</pre>
+  <p class="say">This is cell 1 of the lab.</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 3</b> / Messages</div>
+  <h2>A chat is a list of messages</h2>
+  <div class="beats">
+    <div class="beat purpose"><h4>system</h4><p>The rules. Who the bot is, what it must and must not do.</p><span class="note">Written by you, the developer.</span></div>
+    <div class="beat purpose"><h4>user</h4><p>What the student typed.</p></div>
+    <div class="beat purpose"><h4>assistant</h4><p>What the model said before.</p><span class="note">You send it back so it "remembers".</span></div>
+  </div>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 3</b> / The system prompt</div>
+  <h2>Same question, different system prompt</h2>
+  <div class="cols">
+    <div class="chat">
+      <div class="m sys"><span class="who">system</span>You are a helpful assistant.</div>
+      <div class="m u"><span class="who">student</span>I'm stressed about exams. Help?</div>
+      <div class="m b"><span class="who">reply</span>Sure! Here are 10 tips for exam stress, plus a recipe…</div>
+    </div>
+    <div class="chat">
+      <div class="m sys"><span class="who">system</span>You are JAIN's student helpdesk. Answer in 2 sentences. If unsure, say so and give the office contact.</div>
+      <div class="m u"><span class="who">student</span>I'm stressed about exams. Help?</div>
+      <div class="m b right"><span class="who">reply</span>JAIN has a student counselling centre that can help. Want to know how to reach it?</div>
+    </div>
+  </div>
+  <p class="say">The system prompt is the cheapest way to change behaviour.</p>
+</section>
+
+<section class="meme-slide">
+  <img class="meme-img" src="assets/memes/show-me-the-prompt.png" alt="Batman slapping Robin: Our library allows you to get the best output from your LLMs, pip install llm-magic. Batman: SHOW ME THE PROMPT" style="max-height:600px">
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 3</b> / Memory is a trick</div>
+  <h2>The model remembers nothing</h2>
+  <div class="cols three">
+    <pre class="code json"><span class="ln" style="--i:1"><span class="k">"call_1"</span>: [</span><span class="ln" style="--i:2">{</span><span class="ln" style="--i:3"><span class="k">"role"</span>: <span class="s">"system"</span>,</span><span class="ln" style="--i:3"><span class="k">"content"</span>: <span class="s">"You are JAIN&#39;s student helpdesk."</span></span><span class="ln" style="--i:2">},</span><span class="ln" style="--i:2">{</span><span class="ln" style="--i:3"><span class="k">"role"</span>: <span class="s">"user"</span>,</span><span class="ln" style="--i:3"><span class="k">"content"</span>: <span class="s">"I&#39;m stressed about exams. Help?"</span></span><span class="ln" style="--i:2">}</span><span class="ln" style="--i:1">]</span></pre>
+    <pre class="code json"><span class="ln" style="--i:1"><span class="k">"call_2"</span>: [</span><span class="ln" style="--i:2">{</span><span class="ln" style="--i:3"><span class="k">"role"</span>: <span class="s">"system"</span>,</span><span class="ln" style="--i:3"><span class="k">"content"</span>: <span class="s">"You are JAIN&#39;s student helpdesk."</span></span><span class="ln" style="--i:2">},</span><span class="ln" style="--i:2">{</span><span class="ln" style="--i:3"><span class="k">"role"</span>: <span class="s">"user"</span>,</span><span class="ln" style="--i:3"><span class="k">"content"</span>: <span class="s">"I&#39;m stressed about exams. Help?"</span></span><span class="ln" style="--i:2">},</span><span class="ln" style="--i:2">{</span><span class="ln" style="--i:3"><span class="k">"role"</span>: <span class="s">"assistant"</span>,</span><span class="ln" style="--i:3"><span class="k">"content"</span>: <span class="s">"JAIN has a counselling centre. Want its contact?"</span></span><span class="ln" style="--i:2">}</span><span class="ln" style="--i:1">]</span></pre>
+    <pre class="code json"><span class="ln" style="--i:1"><span class="k">"call_3"</span>: [</span><span class="ln" style="--i:2">{</span><span class="ln" style="--i:3"><span class="k">"role"</span>: <span class="s">"system"</span>,</span><span class="ln" style="--i:3"><span class="k">"content"</span>: <span class="s">"You are JAIN&#39;s student helpdesk."</span></span><span class="ln" style="--i:2">},</span><span class="ln" style="--i:2">{</span><span class="ln" style="--i:3"><span class="k">"role"</span>: <span class="s">"user"</span>,</span><span class="ln" style="--i:3"><span class="k">"content"</span>: <span class="s">"I&#39;m stressed about exams. Help?"</span></span><span class="ln" style="--i:2">},</span><span class="ln" style="--i:2">{</span><span class="ln" style="--i:3"><span class="k">"role"</span>: <span class="s">"assistant"</span>,</span><span class="ln" style="--i:3"><span class="k">"content"</span>: <span class="s">"JAIN has a counselling centre. Want its contact?"</span></span><span class="ln" style="--i:2">},</span><span class="ln" style="--i:2">{</span><span class="ln" style="--i:3"><span class="k">"role"</span>: <span class="s">"user"</span>,</span><span class="ln" style="--i:3"><span class="k">"content"</span>: <span class="s">"Yes, please."</span></span><span class="ln" style="--i:2">}</span><span class="ln" style="--i:1">]</span></pre>
+  </div>
+  <p class="say">Every call sends the <em>whole conversation</em>. Long chats cost more and eventually overflow the context window.</p>
+</section>

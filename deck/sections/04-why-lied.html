@@ -1,0 +1,18 @@
+<!-- ============================================================
+     ACT 4. Why it lied about JAIN.
+     Goal: students can name the two causes (never saw the page;
+     trained to sound fluent, not to say "I don't know") and the
+     two fixes, and see why we pick "put it in the prompt".
+     Act 5 owns how RAG works, including the "paste everything"
+     problem (moved there). Only motivate it here.
+     ============================================================ -->
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 4</b> / Two fixes</div>
+  <h2>How do we teach it about JAIN?</h2>
+  <div class="beats two">
+    <div class="beat breaks"><h4>Fine-tune it</h4><p>Retrain the model on JAIN pages.</p><span class="no">Slow, needs GPUs and data prep, and the moment fees change you retrain. Still hallucinates.</span></div>
+    <div class="beat anchor"><h4>Put it in the prompt</h4><p>Find the right page, paste it in, ask the model to answer <em>from that</em>.</p><span class="note">Update a document, not a model. Can cite sources.</span></div>
+  </div>
+  <p class="say">Closed-book exam vs. <em>open-book exam</em>.</p>
+</section>

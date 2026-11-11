@@ -1,0 +1,78 @@
+<!-- ============================================================
+     ACT 2. What an LLM actually is.
+     Goal: students can say "it predicts the next token" and know
+     what tokens, context window and temperature mean, because the
+     lab code has all three.
+     Probabilities on 2.1 are illustrative, and labelled so.
+     Act 3 owns the API. Act 4 owns hallucination; only plant the
+     seed here ("it never checks facts").
+     ============================================================ -->
+
+<section class="act-open">
+  <div class="act-num">Act 2</div>
+  <h1>What an LLM<br>actually is</h1>
+  <p class="act-sub">Autocomplete. A very, very big autocomplete.</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 2</b> / The one idea</div>
+  <h2>It predicts the next token</h2>
+  <div class="tok-row"><span>JAIN</span><span> University</span><span> is</span><span> in</span><span class="next">?</span></div>
+  <div class="bars" style="margin-top:0.6em">
+    <div class="bar"><span class="nm">Bengaluru</span><span class="track"><span class="fill" style="width:93%"></span></span><span class="v">0.93</span></div>
+    <div class="bar other"><span class="nm">Karnataka</span><span class="track"><span class="fill" style="width:5%"></span></span><span class="v">0.05</span></div>
+    <div class="bar other"><span class="nm">Mumbai</span><span class="track"><span class="fill" style="width:1%"></span></span><span class="v">0.01</span></div>
+  </div>
+  <p class="say">Pick one, append it, repeat.</p>
+  <p class="src">Probabilities illustrative.</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 2</b> / Tokens</div>
+  <h2>It reads tokens, not words</h2>
+  <div class="tok-row chop"><span style="--i:0">Br</span><span style="--i:1">r</span><span style="--i:2"> sk</span><span style="--i:3">ib</span><span style="--i:4">idi</span><span style="--i:5"> dop</span><span style="--i:6"> dop</span><span style="--i:7"> dop</span><span style="--i:8"> dop</span><span style="--i:9"> dop</span><span style="--i:10"> yes</span><span style="--i:11"> yes</span><span style="--i:12"> yes</span><span style="--i:13"> yes</span><span style="--i:14"> sh</span><span style="--i:15">tib</span><span style="--i:16"> sk</span><span style="--i:17">ib</span><span style="--i:18">idi</span><span style="--i:19"> dip</span><span style="--i:20"> d</span><span style="--i:21">ib</span><span style="--i:22">idi</span><span style="--i:23"> www</span><span style="--i:24">w</span><span style="--i:25"> yes</span><span style="--i:26"> yes</span><span style="--i:27"> yes</span><span style="--i:28"> yes</span></div>
+  <p style="margin-top:1em">You see <code>20 words</code>. The model sees <code class="tok-count" style="--to:29"></code>.</p>
+  <p>Rough rule: <code>1 token ≈ ¾ of an English word</code>.</p>
+  <p class="say">You pay, and you hit limits, <em>per token</em>.</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 2</b> / How it learned</div>
+  <h2>Two stages of training</h2>
+  <div class="flow">
+    <div class="stage"><span class="k">Stage 1</span><span class="t">Pretraining</span><span class="d">Read a huge slice of the internet. Learn to continue any text.</span></div>
+    <div class="arrow">&#8594;</div>
+    <div class="stage on"><span class="k">Stage 2</span><span class="t">Chat tuning</span><span class="d">Learn to answer like a helpful assistant instead of rambling.</span></div>
+  </div>
+  <p class="say">It learned to <em>sound</em> right. Nobody taught it to check facts.</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 2</b> / Three knobs you will touch today</div>
+  <h2>Words you will see in the lab</h2>
+  <div class="beats">
+    <div class="beat purpose"><h4>Context window</h4><p>Everything the model can "see" at once: your prompt, the history, the documents.</p><span class="note">Not memory. When it is full, old text falls off.</span></div>
+    <div class="beat purpose"><h4>Temperature</h4><p>0 = always pick the top token. Higher = more random, more creative.</p><span class="note">Facts bot → keep it low.</span></div>
+    <div class="beat purpose"><h4>Max tokens</h4><p>A cap on how long the reply can be.</p><span class="no">Too low and answers get cut mid-sentence.</span></div>
+  </div>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 2</b> / Temperature</div>
+  <h2>Temperature: how random is the next token?</h2>
+  <img class="meme-img" src="assets/memes/temperature-iq-bell.png" alt="Bell-curve IQ meme: the low and high ends say just use the default, the middle says temperature helps control randomness." style="max-height:420px">
+  <p class="say"><code>0</code> = always the top token. Higher = more random. Facts bot → <em>keep it low</em>.</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 2</b> / A common misconception</div>
+  <h2>It is not a calculator. Or a database.</h2>
+  <div class="cols wide-left">
+    <div>
+      <p>It does not <em>look up</em> anything. It does not <em>compute</em> anything.</p>
+      <p>It produces text that is likely to come next.</p>
+      <p class="muted">Sometimes likely text is the true answer. Sometimes it is not.</p>
+    </div>
+    <img class="meme-img" src="assets/memes/llm-not-a-calculator.png" alt="AI according to the news: a Terminator skull. AI in real life: the Is this a pigeon man pointing at 2+2 and asking, Is it 5?" style="max-height:520px">
+  </div>
+</section>

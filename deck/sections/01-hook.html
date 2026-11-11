@@ -1,0 +1,75 @@
+<!-- ============================================================
+     ACT 1. The hook: ask a plain LLM a JAIN question.
+     Source: kb/fees/www-admission-cancellation-and-refund-rules.md
+       (jainuniversity.ac.in, fetched 2026-11-05).
+     Goal: the room sees a fluent, wrong answer about their own
+     university, and wants to know how to fix it.
+     The bot reply on 1.1 is a real gpt-oss-20b answer (no context),
+     shortened for the slide. Slide 1.2 lists what it invented.
+     Act 4 explains WHY it is wrong. Do not explain it here.
+     ============================================================ -->
+
+<section class="act-open">
+  <div class="act-num">Act 1</div>
+  <h1>Ask an LLM<br>about JAIN</h1>
+  <p class="act-sub">A question every student here could need answered one day.</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 1</b> / Live demo</div>
+  <h2>A plain LLM, no help</h2>
+  <div class="chat">
+    <div class="m u"><span class="who">student</span>I joined BCA at JAIN and want to cancel 20 days after the last date of admission. How much fee do I get back?</div>
+    <div class="m b wrong"><span class="who">gpt-oss-20b · no context</span>If you cancel 20 days after the last admission date, you should expect <b>about 40% of the tuition fee</b> to be refunded (roughly ₹1,00,000 if tuition is ₹2,50,000), minus a non-refundable processing charge of ₹5,000. <em>Email the Finance Office at finance@jainuniversity.edu…</em></div>
+  </div>
+  <p class="say">Sounds sure. Sounds polite. <em>Is it right?</em></p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 1</b> / Fact check</div>
+  <h2>Count the inventions</h2>
+  <div class="beats">
+    <div class="beat breaks"><h4>The percentage</h4><p>"40% refunded."</p><span class="no">JAIN's page says 50% is deducted for this case.</span></div>
+    <div class="beat breaks"><h4>The money</h4><p>₹2,50,000 tuition, ₹5,000 + ₹2,000 fees.</p><span class="no">None of these numbers appear in JAIN's refund rules.</span></div>
+    <div class="beat breaks"><h4>The email</h4><p>finance@jainuniversity.edu</p><span class="no">Not on any page we collected. A student could send documents to it.</span></div>
+  </div>
+  <p class="say">Tables, steps, tips. All <em>fluent</em>. Mostly <em>made up</em>.</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 1</b> / The real answer</div>
+  <h2>What JAIN's own page says</h2>
+  <table>
+    <tr><th>When you ask for a refund</th><th>Deduction</th></tr>
+    <tr><td>More than 15 days before the last date</td><td class="num">5% (max ₹5,000)</td></tr>
+    <tr><td>Less than 15 days before</td><td class="num">10%</td></tr>
+    <tr><td>Up to 15 days after</td><td class="num">20%</td></tr>
+    <tr><td>16–30 days after</td><td class="num">50%</td></tr>
+    <tr><td>More than 30 days after</td><td class="num">No refund</td></tr>
+  </table>
+  <p class="say">20 days after → you lose <em>half</em> the fee. BCA/MCA last date: 20 July 2026.</p>
+  <p class="src">jainuniversity.ac.in · Admission cancellation and refund rules · fetched 5 Nov 2026</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 1</b> / Goal for today</div>
+  <h2>Same question, our bot</h2>
+  <div class="chat">
+    <div class="m u"><span class="who">student</span>…cancel 20 days after the last date. How much do I get back?</div>
+    <div class="m b right"><span class="who">your bot · with JAIN pages</span>A 50% deduction applies on the total fee paid for requests 16–30 days after the last date of admission.<br><span class="who">source: admission-cancellation-and-refund-rules</span></div>
+  </div>
+  <p class="say">Same model. The only difference is <em>what we put in front of it</em>.</p>
+</section>
+
+<section class="meme-slide">
+  <img class="meme-img" src="assets/memes/hallucination-le-cercle-rouge.png" alt="Yves Montand in Le Cercle Rouge during delirium tremens, with a circled bottle-shaped thing captioned: This thing probably doesn&#39;t exist." style="max-height:600px">
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 1</b> / Two causes</div>
+  <h2>Where the wrong answer came from</h2>
+  <div class="beats two">
+    <div class="beat breaks"><h4>It never saw the page</h4><p>JAIN's 2026 refund table is not in its training data, or is buried under thousands of other universities' rules.</p><span class="no">Training data also stops at a cutoff date.</span></div>
+    <div class="beat breaks"><h4>It is trained to sound sure</h4><p>"I don't know" is rarely the most likely next text. A fluent guess is.</p><span class="no">This is called hallucination.</span></div>
+  </div>
+</section>

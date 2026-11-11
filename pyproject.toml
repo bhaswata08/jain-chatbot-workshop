@@ -1,0 +1,19 @@
+[project]
+name = "jain-kb"
+version = "0.1.0"
+description = "Collect public JAIN University pages into a Markdown knowledge base for a student chatbot workshop"
+authors = [
+    { name = "bhaswata", email = "bhaswata08@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "httpx>=0.28.1",
+    "trafilatura>=2.3.1",
+]
+
+[project.scripts]
+jain-kb = "jain_kb:main"
+
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14.0"]
+build-backend = "uv_build"

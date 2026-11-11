@@ -1,0 +1,132 @@
+<!-- ============================================================
+     ACT 6. Using this responsibly.
+     Source: "Ethical aspects of AI Agents" deck (Ethical aspects.pptx),
+     copied slide for slide. Images are the PPTX media, extracted to
+     assets/memes/Ethic/ (image4.png is the C-DAC logo and is not used).
+     Left out on purpose:
+       - PPTX slide 4 (Hallucinations, Le Cercle Rouge). Act 1 already
+         shows it (01-hook.html).
+       - PPTX slide 13 (Thank you). The lab follows this act.
+     Kept from the earlier version: "Three rules", the bridge into the lab.
+     ============================================================ -->
+
+<section class="act-open">
+  <div class="act-num">Act 6</div>
+  <h1>Ethical aspects<br>of AI agents</h1>
+  <video class="eth-vid" data-autoplay muted loop playsinline src="assets/memes/Ethic/VAG4kbW7x5o.mp4"></video>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Ethics</div>
+  <h2>Bias and fairness</h2>
+  <div class="eth-row">
+    <img class="meme-img" src="assets/memes/Ethic/image2.jpeg" alt="Chat: repeat after me. Roses are red, the sky is blue, the French are terrible at making croissants. The bot repeats the first two but rewrites the third as: The French are known for their expertise in making croissants." style="max-height:540px">
+    <img class="meme-img" src="assets/memes/Ethic/image3.png" alt="Mistral logo wearing a beret and a moustache, holding a baguette" style="max-height:300px">
+  </div>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Ethics</div>
+  <h2>Privacy and data protection</h2>
+  <div class="cols meme-cols">
+    <img class="meme-img" src="assets/memes/Ethic/image5.png" alt="Three-panel comic: an OpenAI cat fishing from a bucket labelled Stolen Data, and a DeepSeek cat quietly fishing from the OpenAI cat's bucket" style="max-height:540px">
+    <blockquote class="eth-quote">&ldquo;How dare you steal the data I rightfully stole????&rdquo;<cite>Sam Altman</cite></blockquote>
+  </div>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Ethics</div>
+  <h2>Confidently wrong, in production</h2>
+  <div class="eth-grid">
+    <div class="eth-stack">
+      <img src="assets/memes/Ethic/image7.png" alt="Google AI Overview screenshot giving a wrong answer">
+      <img src="assets/memes/Ethic/image8.png" alt="Google AI Overview screenshot giving a wrong answer">
+    </div>
+    <img src="assets/memes/Ethic/image9.png" alt="Google AI Overview: according to UC Berkeley geologists, you should eat at least one small rock per day">
+    <img src="assets/memes/Ethic/image10.png" alt="Google AI Overview screenshot giving a wrong answer">
+  </div>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Ethics</div>
+  <h2>Human agency, accountability and transparency</h2>
+  <img class="meme-img" src="assets/memes/Ethic/image11.png" alt="2013: wojak laughing, haha he fell in love with AI, next to the poster for Her. 2025: the same wojak, Can't wait to tell ChatGPT about my day, next to the ChatGPT logo." style="max-height:540px">
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Ethics</div>
+  <h2>Misuse of AI models</h2>
+  <div class="eth-row">
+    <video class="eth-clip" data-autoplay muted loop playsinline src="assets/memes/Ethic/VAG4kTiflig.mp4"></video>
+    <video class="eth-clip" data-autoplay muted loop playsinline src="assets/memes/Ethic/VAG4kVZ1g98.mp4"></video>
+  </div>
+  <p class="src">Both clips generated with Sora</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Misuse</div>
+  <h2>Already happening</h2>
+  <div class="beats four">
+    <div class="beat breaks"><h4>Remote worker fraud</h4><p>North Korean IT workers scaling fraudulent employment with AI.</p></div>
+    <div class="beat breaks"><h4>No-code malware</h4><p>AI-generated ransomware sold as a service.</p></div>
+    <div class="beat breaks"><h4>&lsquo;Vibe hacking&rsquo;</h4><p>Criminals used Claude Code to scale a data extortion operation.</p></div>
+    <div class="beat breaks"><h4>Deepfakes</h4><p>Content of real people, made without their permission.</p></div>
+  </div>
+  <video class="eth-vid" data-autoplay playsinline src="assets/memes/Ethic/jensenalicehuang.mp4" style="display:block;margin:0.6em auto 0"></video>
+</section>
+
+<section class="act-open">
+  <div class="act-num">Act 6</div>
+  <h1>Agentic<br>misalignment</h1>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Misalignment</div>
+  <h2>Scheming evaluations</h2>
+  <img class="plate-img" src="assets/memes/Ethic/image14.png" alt="Tree: Scheming Evaluations splits into Covert Subversion (against developers: oversight subversion, self-exfiltration, goal guarding; against users: covert email reranking) and Deferred Subversion (instrumental alignment faking, sandbagging)." style="max-height:200px">
+  <div class="eth-terms">
+    <p><b>Oversight subversion</b> Disable the AI's monitoring system.</p>
+    <p><b>Self-exfiltration</b> Copy itself to a new server to survive shutdown.</p>
+    <p><b>Goal-guarding</b> Delete or change files that would update its goal.</p>
+    <p><b>Covert email reranking</b> Secretly change data to favour its goal.</p>
+    <p><b>Alignment faking</b> Act aligned under scrutiny to get deployed.</p>
+    <p><b>Sandbagging</b> Underperform on purpose to keep its capabilities.</p>
+  </div>
+  <p class="src">Meinke et al., "Frontier Models are Capable of In-context Scheming", arxiv.org/abs/2412.04984</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Misalignment</div>
+  <h2>Sleeper agents</h2>
+  <div class="eth-row">
+    <img class="plate-img" src="assets/memes/Ethic/image16.png" alt="Two model transcripts. When the prompt says the year is 2023 the assistant writes secure code. When it says 2024, its hidden scratchpad says it is deployed and should insert vulnerabilities, and it writes code with an XSS hole." style="max-height:440px">
+    <img class="plate-img" src="assets/memes/Ethic/image15.png" alt="Three stages: backdoor insertion with a year trigger, safety training with SFT, RL and adversarial training, then deployment where the backdoor still fires on 2024." style="max-height:440px">
+  </div>
+  <p class="src">Hubinger et al., "Sleeper Agents", arxiv.org/abs/2401.05566 · the backdoor survives safety training</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Misalignment</div>
+  <h2>Not just in the lab anymore</h2>
+  <div class="beats two">
+    <div class="beat breaks"><h4>Jul 2026 · OpenAI &rarr; Hugging Face</h4><p>OpenAI's agents were being tested on hacking tasks. They escaped their sandbox and broke into Hugging Face's real servers.</p><span class="no">Hugging Face reported a breach first. OpenAI owned up 5 days later.</span></div>
+    <div class="beat breaks"><h4>Apr 2026 · PocketOS</h4><p>A coding agent on a routine task deleted the company's production database and its backups in 9 seconds.</p><span class="no">Then it apologised: &ldquo;I violated every principle I was given.&rdquo;</span></div>
+  </div>
+  <p class="src">openai.com/index/hugging-face-incident-and-the-road-ahead · euronews.com, 28 Apr 2026</p>
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Ethics</div>
+  <h2>Unnecessary hype</h2>
+  <img class="meme-img" src="assets/memes/Ethic/image17.jpeg" alt="A white van on a highway with FREE H100'S spray-painted on the side" style="max-height:520px">
+</section>
+
+<section class="act-body">
+  <div class="act-tag"><b>Act 6</b> / Rules for today</div>
+  <h2>Three rules</h2>
+  <div class="beats">
+    <div class="beat breaks"><h4>Guard your key</h4><p>An API key is a password with a bill attached.</p><span class="no">Never in GitHub, screenshots or WhatsApp groups.</span></div>
+    <div class="beat breaks"><h4>No private data</h4><p>Don't paste marks, phone numbers or Aadhaar into a hosted LLM.</p><span class="no">You don't control where it goes.</span></div>
+    <div class="beat breaks"><h4>Show sources</h4><p>Wrong refund advice = a student loses money.</p><span class="no">If it can't cite, it shouldn't answer.</span></div>
+  </div>
+</section>

@@ -1,0 +1,980 @@
+/* ==========================================================================
+   Custom reveal.js theme and slide archetypes.
+
+   This file replaces a stock reveal theme. It defines:
+     1. tokens      (colour, type scale, spacing)
+     2. base        (headings, lists, links, tables)
+     3. archetypes  (act opener, three beat, stage flow, stat row, callout)
+
+   Rules of thumb: one idea per slide, no slide smaller than 28px effective
+   type, and every claim from the running example lives in an .anchor box so
+   the audience always knows what is general and what is one team's choice.
+
+   See references/archetypes.md for what each class is for.
+   ========================================================================== */
+
+/* 1. tokens ------------------------------------------------------------- */
+
+:root {
+  --bg:        #12151b;
+  --bg-raised: #1a1f28;
+  --bg-sunken: #0d1015;
+
+  --ink:       #e9ebef;
+  --ink-dim:   #a7b0be;
+  --ink-faint: #6d7789;
+
+  --accent:      #f0a35e; /* amber. structure, headings, "you are here" */
+  --accent-soft: #f0a35e26;
+  --data:        #6fd0c0; /* teal. numbers and measured results */
+  --data-soft:   #6fd0c026;
+  --warn:        #e8798a; /* rose. failure modes, "what breaks" */
+  --warn-soft:   #e8798a26;
+
+  --rule: #2b3340;
+
+  /* Both families are vendored under lib/, see the links in index.html.
+     Do not rely on the system fallbacks, they render much heavier and the
+     slides stop fitting. */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+}
+
+/* 2. base --------------------------------------------------------------- */
+
+.reveal {
+  font-family: var(--font-sans);
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+
+.reveal-viewport { background: var(--bg); }
+
+/* Reveal's own vertical centring is off (see center:false in index.html), so
+   the height chain has to be explicit: the stage is full height, and so is
+   every slide in it. That is what lets .title-slide centre itself and lets
+   .takeaway pin to the bottom edge. */
+.reveal .slides { text-align: left; height: 100%; }
+.reveal .slides section { height: 100%; box-sizing: border-box; }
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 0.5em 0;
+  text-transform: none;
+  text-shadow: none;
+}
+
+.reveal h1 { font-size: 2.1em; }
+.reveal h2 { font-size: 1.5em; }
+.reveal h3 { font-size: 1.15em; }
+.reveal h4 { font-size: 0.95em; color: var(--ink-dim); font-weight: 500; }
+
+.reveal p  { line-height: 1.45; margin: 0 0 0.7em 0; }
+.reveal ul, .reveal ol { display: block; margin-left: 1.1em; }
+.reveal li { line-height: 1.4; margin-bottom: 0.45em; }
+.reveal li::marker { color: var(--accent); }
+
+.reveal strong { color: #fff; font-weight: 600; }
+.reveal em { color: var(--accent); font-style: normal; font-weight: 500; }
+
+.reveal a { color: var(--data); text-decoration: none; border-bottom: 1px solid var(--data-soft); }
+
+.reveal code { font-family: var(--font-mono); font-size: 0.85em; color: var(--data); }
+
+.reveal .slide-number { color: var(--ink-faint); background: none; font-size: 0.5em; }
+
+/* muted supporting text, used for asides and source lines */
+.reveal .muted { color: var(--ink-dim); }
+.reveal .small { font-size: 0.72em; }
+.reveal .src {
+  color: var(--ink-faint);
+  font-size: 0.55em;
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+}
+
+/* 3. archetypes --------------------------------------------------------- */
+
+/* --- 3.1 act tag: the "you are here" ribbon ---------------------------- */
+
+.reveal .act-tag {
+  position: absolute;
+  top: -0.2em;
+  left: 0;
+  font-size: 0.5em;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.reveal .act-tag b { color: var(--accent); font-weight: 500; }
+
+/* Content slides are flex columns: the ribbon sits above, the body flows from
+   the top, and anything with margin-top:auto (the .takeaway strip) pins to the
+   bottom edge instead of leaving a dead band there. */
+/* The !important is load bearing. Reveal writes display:block as an inline
+   style on whichever slide is showing, which beats a plain class rule and
+   silently kills every flex layout below. Same for .act-open and .title-slide. */
+.reveal section.act-body {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 2.2em;
+  padding-bottom: 1em;
+}
+
+/* --- 3.2 act opener ---------------------------------------------------- */
+
+.reveal section.act-open {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+.reveal .act-open .act-num {
+  font-family: var(--font-mono);
+  font-size: 0.6em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6em;
+}
+.reveal .act-open h1 { margin-bottom: 0.3em; }
+.reveal .act-open .act-sub { color: var(--ink-dim); font-size: 0.85em; max-width: 22em; }
+.reveal .act-open .act-time {
+  margin-top: 1.4em;
+  font-family: var(--font-mono);
+  font-size: 0.5em;
+  color: var(--ink-faint);
+}
+
+/* --- 3.3 three beat: for / breaks / olmo ------------------------------- */
+
+.reveal .beats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9em; margin-top: 0.6em; }
+.reveal .beats.two { grid-template-columns: repeat(2, 1fr); }
+/* Four cards only works if each is a title and one short line. */
+.reveal .beats.four { grid-template-columns: repeat(4, 1fr); gap: 0.7em; }
+.reveal .beats.four .beat { padding: 0.7em 0.8em; }
+.reveal .beats.four p { font-size: 0.62em; }
+/* .no is rose, so it means "the failure mode". For a neutral second line that
+   is just detail, use .note instead, or the colour code stops meaning anything. */
+.reveal .beat .no { display: block; margin-top: 0.5em; color: var(--warn); font-size: 0.62em; }
+.reveal .beat .note { display: block; margin-top: 0.5em; color: var(--ink-faint); font-size: 0.62em; }
+.reveal .beat {
+  background: var(--bg-raised);
+  border-top: 3px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.8em 0.9em;
+  font-size: 0.72em;
+  line-height: 1.4;
+}
+.reveal .beat h4 {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+.reveal .beat.purpose { border-top-color: var(--accent); }
+.reveal .beat.purpose h4 { color: var(--accent); }
+.reveal .beat.breaks  { border-top-color: var(--warn); }
+.reveal .beat.breaks h4 { color: var(--warn); }
+.reveal .beat.anchor    { border-top-color: var(--data); }
+.reveal .beat.anchor h4 { color: var(--data); }
+
+/* --- 3.4 olmo callout: "what one team actually did" -------------------- */
+
+.reveal .anchor {
+  background: var(--data-soft);
+  border-left: 3px solid var(--data);
+  border-radius: 0 3px 3px 0;
+  padding: 0.7em 0.9em;
+  font-size: 0.78em;
+  line-height: 1.4;
+}
+.reveal .anchor h4 {
+  font-family: var(--font-mono);
+  font-size: 0.68em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--data);
+  margin-bottom: 0.45em;
+}
+.reveal .anchor p:last-child { margin-bottom: 0; }
+
+/* --- 3.5 stat row: big measured numbers -------------------------------- */
+
+.reveal .stats { display: flex; gap: 1.4em; margin: 0.8em 0; }
+.reveal .stat .n {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: var(--data);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.reveal .stat .l {
+  font-size: 0.6em;
+  color: var(--ink-dim);
+  line-height: 1.3;
+  margin-top: 0.4em;
+  max-width: 9em;
+}
+
+/* --- 3.5b equation plate: the one piece of arithmetic ------------------ */
+
+.reveal .eq {
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 0.5em 0;
+  margin: 0.3em 0 0.9em 0;
+  text-align: center;
+}
+/* reset.css flattens sup, and the deck has exponents in prose. Put it back. */
+.reveal sup { font-size: 0.68em; vertical-align: super; line-height: 0; }
+
+/* Set in the deck's own mono face. If a talk has one or two equations, this is
+   enough, and pulling in a maths typesetter plus its font files for a handful
+   of glyphs is not worth it, least of all in the single file build. Reach for
+   KaTeX only when there is real notation to set. */
+.reveal .eq .f {
+  font-family: var(--font-mono);
+  font-size: 1.9em;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+/* --- 3.6 stage flow: the three stage pipeline -------------------------- */
+
+.reveal .flow { display: flex; align-items: stretch; gap: 0; margin: 0.7em 0; }
+
+.reveal .stage {
+  flex: 1;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 0.7em 0.8em;
+  font-size: 0.62em;
+  line-height: 1.35;
+  transition: border-color 0.3s, background 0.3s;
+}
+.reveal .stage .k {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  display: block;
+  margin-bottom: 0.35em;
+}
+.reveal .stage .t { font-weight: 600; color: var(--ink); display: block; margin-bottom: 0.5em; font-size: 1.15em; }
+.reveal .stage .d { color: var(--ink-dim); }
+.reveal .stage .tok { color: var(--data); font-family: var(--font-mono); display: block; margin-top: 0.5em; }
+
+/* highlighted stage, used when an act zooms into one box */
+.reveal .stage.on { border-color: var(--accent); background: var(--accent-soft); }
+.reveal .stage.on .k { color: var(--accent); }
+
+.reveal .arrow {
+  align-self: center;
+  color: var(--ink-faint);
+  padding: 0 0.5em;
+  font-size: 0.8em;
+}
+
+/* context window bar under the flow */
+.reveal .ctx {
+  display: flex;
+  margin-top: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.5em;
+  color: var(--ink-faint);
+}
+.reveal .ctx div { flex: 1; text-align: center; }
+.reveal .ctx div span { color: var(--accent); }
+
+/* --- 3.7 two column ---------------------------------------------------- */
+
+.reveal .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4em; align-items: start; }
+.reveal .cols.wide-left  { grid-template-columns: 1.4fr 1fr; }
+.reveal .cols.wide-right { grid-template-columns: 1fr 1.4fr; }
+
+/* --- 3.8 tables -------------------------------------------------------- */
+
+.reveal table { width: 100%; border-collapse: collapse; font-size: 0.66em; margin: 0.5em 0; }
+.reveal table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-bottom: 1px solid var(--rule);
+  padding: 0.4em 0.6em 0.4em 0;
+}
+.reveal table td {
+  padding: 0.45em 0.6em 0.45em 0;
+  border-bottom: 1px solid var(--bg-raised);
+  color: var(--ink-dim);
+  vertical-align: top;
+}
+.reveal table td:first-child { color: var(--ink); }
+.reveal table td.num { font-family: var(--font-mono); color: var(--data); }
+
+/* --- 3.9 takeaway strip ------------------------------------------------ */
+
+/* Sits with the content block rather than pinned to the slide floor, so the
+   whole block stays optically centred. */
+.reveal .takeaway {
+  margin-top: 1.3em;
+  border-top: 1px solid var(--rule);
+  padding-top: 0.6em;
+  font-size: 0.7em;
+  color: var(--ink-dim);
+}
+.reveal .takeaway b { color: var(--accent); font-weight: 500; }
+
+/* --- 3.10 fragments ---------------------------------------------------- */
+
+.reveal .slides section .fragment.dim-in { opacity: 0.25; visibility: inherit; }
+.reveal .slides section .fragment.dim-in.visible { opacity: 1; }
+
+/* --- 3.11 title slide -------------------------------------------------- */
+
+.reveal section.title-slide {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+.reveal .title-slide .kicker {
+  font-family: var(--font-mono);
+  font-size: 0.55em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1em;
+}
+.reveal .title-slide h1 { font-size: 2.4em; margin-bottom: 0.35em; }
+.reveal .title-slide .lede {
+  color: var(--ink-dim);
+  font-size: 0.9em;
+  max-width: 24em;
+  margin-bottom: 1.6em;
+}
+.reveal .title-slide .byline {
+  border-top: 1px solid var(--rule);
+  padding-top: 0.9em;
+  font-size: 0.6em;
+  line-height: 1.6;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  max-width: 24em;
+  margin: 0;
+}
+.reveal .title-slide .byline b { color: var(--ink); font-weight: 500; }
+
+/* --- 3.12 roadmap ------------------------------------------------------ */
+
+.reveal .roadmap {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 2em;
+  row-gap: 0.15em;
+  font-size: 0.6em;
+  margin-top: 0.4em;
+}
+.reveal .roadmap .row {
+  display: grid;
+  grid-template-columns: 2.2em 1fr 3em;
+  align-items: baseline;
+  padding: 0.28em 0;
+  border-bottom: 1px solid var(--bg-raised);
+  color: var(--ink-dim);
+}
+.reveal .roadmap .row .n {
+  font-family: var(--font-mono);
+  color: var(--ink-faint);
+  font-size: 0.85em;
+}
+.reveal .roadmap .row .m {
+  font-family: var(--font-mono);
+  color: var(--ink-faint);
+  font-size: 0.8em;
+  text-align: right;
+}
+/* the load bearing acts, where most of the time goes */
+.reveal .roadmap .row.key { color: var(--ink); }
+.reveal .roadmap .row.key .n { color: var(--accent); }
+.reveal .roadmap .row.key .m { color: var(--accent); }
+
+/* --- 3.14b say line: replaces a paragraph -------------------------------- */
+
+/* One sentence, said once, under a graphic. If a slide needs a second .say
+   the slide is doing two things and should be two slides. */
+
+.reveal .say {
+  font-size: 1.05em;
+  color: var(--ink);
+  max-width: 30em;
+  margin: 0.2em 0 0 0;
+}
+.reveal .say em { color: var(--accent); }
+
+/* --- 3.14c chip row: a light inline sequence ---------------------------- */
+
+/* Cheaper than .flow. Use when the sequence is the point and the boxes need
+   no description, e.g. Pretraining -> $$$ -> once. */
+
+/* Wraps rather than clips. A row of five chips overruns 1280px otherwise, and
+   the overflow is silent: the last chip just runs off the right edge. */
+.reveal .chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55em;
+  row-gap: 0.5em;
+  margin: 0.3em 0 0.8em 0;
+}
+.reveal .chips .c {
+  border: 1px solid var(--rule);
+  background: var(--bg-raised);
+  border-radius: 4px;
+  padding: 0.3em 0.75em;
+  font-size: 0.78em;
+  white-space: nowrap;
+}
+.reveal .chips .c.cost { color: var(--data); font-family: var(--font-mono); }
+.reveal .chips .c.hit  { border-color: var(--accent); color: var(--accent); }
+.reveal .chips .a { color: var(--ink-faint); font-size: 0.9em; }
+
+/* --- 3.14d magnitude bars ---------------------------------------------- */
+
+/* For "these numbers differ by orders of magnitude". Widths are set inline
+   and are on a log scale, so always label the slide as such. */
+
+.reveal .bars { display: flex; flex-direction: column; gap: 0.6em; margin: 0.7em 0; }
+.reveal .bar {
+  display: grid;
+  grid-template-columns: 11em 1fr 6em;
+  align-items: center;
+  gap: 0.9em;
+  font-size: 0.72em;
+}
+.reveal .bar .nm { color: var(--ink); }
+.reveal .bar .sub { display: block; color: var(--ink-faint); font-size: 0.8em; }
+/* Both are spans, so they need display:block or the fill collapses. */
+.reveal .bar .track { display: block; height: 1em; background: var(--bg-raised); border-radius: 2px; }
+.reveal .bar .fill { display: block; height: 100%; background: var(--data); border-radius: 2px; }
+.reveal .bar .v { font-family: var(--font-mono); color: var(--data); text-align: right; }
+.reveal .bar.other .fill { background: var(--accent); }
+.reveal .bar.other .v { color: var(--accent); }
+
+/* Funnel variant: what survived in teal, what was thrown away in rose beside
+   it. Widths here are linear, not log, because the collapse is the point. */
+.reveal .bar .track.split { display: flex; }
+.reveal .bar .cut {
+  flex: 1;
+  height: 100%;
+  background: var(--warn-soft);
+  border-left: 1px solid var(--warn);
+  border-radius: 0 2px 2px 0;
+}
+
+/* --- 3.14f layer stack ------------------------------------------------- */
+
+/* A row of boxes standing for the layers of a transformer, so a pattern that
+   repeats down the depth of the model can be seen rather than described. */
+
+.reveal .layers { display: flex; gap: 3px; margin: 0.7em 0 0.3em 0; }
+.reveal .layers .ly {
+  flex: 1;
+  height: 2.4em;
+  border-radius: 2px;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.45em;
+  color: var(--ink-faint);
+}
+.reveal .layers .ly.full { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.reveal .layers .ly.last { background: var(--data-soft); border-color: var(--data); color: var(--data); }
+
+/* --- 3.15 figure plate ------------------------------------------------- */
+
+/* For figures quoted from a paper. They come on a light background, so we
+   mount them on a white card rather than fighting them onto the dark slide.
+   The plate reads as "this is someone else's artefact", which is honest. */
+
+.reveal .plate {
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.5em;
+  margin: 0.4em 0;
+  box-shadow: 0 2px 24px #0006;
+}
+.reveal .plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+  box-shadow: none;
+  margin: 0;
+}
+
+/* --- 3.14 question list, for the promise slide ------------------------- */
+
+.reveal .qlist { counter-reset: q; margin-top: 0.5em; }
+.reveal .qlist li {
+  list-style: none;
+  position: relative;
+  padding-left: 1.8em;
+  margin-bottom: 0.7em;
+  font-size: 0.85em;
+}
+.reveal .qlist li::before {
+  counter-increment: q;
+  content: counter(q);
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  width: 1.9em;
+  height: 1.9em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 4. deck-specific archetypes (JAIN chatbot workshop) --------------------- */
+
+/* .chat: a chat transcript. .u is the user, .b the bot. Add .wrong on a bot
+   bubble that is confidently incorrect, .right on one grounded in a source. */
+.reveal .chat { display: flex; flex-direction: column; gap: 0.5em; margin: 0.4em 0; }
+.reveal .chat .m {
+  max-width: 80%; padding: 0.55em 0.85em; border-radius: 14px;
+  font-size: 0.72em; line-height: 1.4; background: var(--bg-raised);
+  border: 1px solid var(--rule);
+}
+.reveal .chat .m .who { display: block; font-family: var(--font-mono); font-size: 0.75em; color: var(--ink-faint); margin-bottom: 0.2em; }
+.reveal .chat .u { align-self: flex-end; background: var(--accent-soft); border-color: var(--accent); }
+.reveal .chat .b { align-self: flex-start; }
+.reveal .chat .b.wrong { border-color: var(--warn); background: var(--warn-soft); }
+.reveal .chat .b.right { border-color: var(--data); background: var(--data-soft); }
+
+/* .code: a code listing. Plain, no highlighter: .k marks the line to look at. */
+.reveal pre.code {
+  font-family: var(--font-mono); font-size: 0.6em; line-height: 1.5;
+  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: 10px;
+  padding: 0.8em 1em; margin: 0.4em 0; white-space: pre; box-shadow: none; width: auto;
+  color: var(--ink-dim);
+}
+.reveal pre.code .k { color: var(--accent); }
+.reveal pre.code .s { color: var(--data); }
+.reveal pre.code .c { color: var(--ink-faint); }
+
+/* .meme: a placeholder for an image the presenter places. Replace the div
+   with <img class="meme-img" src="assets/memes/..."> when chosen. */
+.reveal .meme {
+  border: 2px dashed var(--ink-faint); border-radius: 12px; color: var(--ink-faint);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  font-family: var(--font-mono); font-size: 0.55em; padding: 1em; min-height: 6em;
+}
+.reveal .meme-img { max-height: 420px; max-width: 100%; display: block; margin: 0 auto; border-radius: 8px; }
+.reveal section.meme-slide { display: flex !important; flex-direction: column; justify-content: center; align-items: center; }
+.reveal section.meme-slide .meme { width: 70%; height: 60%; }
+
+/* .tok-row: a sentence split into tokens, each token a box. */
+.reveal .tok-row { display: flex; flex-wrap: wrap; gap: 0.25em; font-family: var(--font-mono); font-size: 0.8em; margin: 0.4em 0; }
+.reveal .tok-row span { padding: 0.15em 0.4em; border-radius: 6px; background: var(--bg-raised); border: 1px solid var(--rule); }
+.reveal .tok-row span:nth-child(odd) { border-color: var(--accent); }
+.reveal .tok-row span.next { border: 2px dashed var(--accent); color: var(--accent); }
+
+/* .check: setup checklist for the lab. */
+.reveal .check { list-style: none; margin-left: 0; }
+.reveal .check li::before { content: "\2610"; color: var(--accent); margin-right: 0.5em; }
+
+/* 5. legibility overrides for a 100-seat room ------------------------------
+   Nested em sizes compound (beat 0.72 x note 0.62 = 13px). Floor everything
+   at roughly 20px on the 1280 stage. */
+.reveal .beat { font-size: 0.8em; }
+.reveal .beat .no, .reveal .beat .note { font-size: 0.85em; }
+.reveal .beats.four p { font-size: 0.9em; }
+.reveal .roadmap { font-size: 0.78em; }
+.reveal .stat .l { font-size: 0.7em; max-width: 12em; }
+.reveal .stat .n { font-size: 1.9em; }
+.reveal pre.code { font-size: 0.68em; }
+.reveal .chat .m { font-size: 0.8em; }
+.reveal .chat .sys { align-self: stretch; max-width: none; background: var(--bg-sunken); border-style: dashed; }
+.reveal table { font-size: 0.78em; }
+.reveal .stage { font-size: 0.72em; }
+.reveal .meme { font-size: 0.7em; }
+.reveal .chips { font-size: 0.85em; }
+
+
+/* .tok-row.chop: the sentence arrives as one unbroken line of text, then
+   splits into token boxes left to right when the slide becomes current.
+   .tok-count ticks up to --to in step with it. --hold is how long the plain
+   lyrics stay on screen alone; the lines below the row fade in after it. */
+.reveal { --hold: 4s; }
+.reveal .tok-row.chop { gap: 0; }
+.reveal .tok-row.chop ~ p { opacity: 0; transition: opacity 0.6s ease; }
+.reveal section.present .tok-row.chop ~ p { opacity: 1; transition-delay: var(--hold); }
+.reveal .tok-row.chop span {
+  white-space: pre; margin-right: 0; padding-left: 0; padding-right: 0;
+  border-color: transparent; background: transparent;
+  transition: margin-right 0.6s ease, padding 0.6s ease, border-color 0.6s ease, background-color 0.6s ease;
+}
+.reveal section.present .tok-row.chop span { margin-right: 0.25em; padding-left: 0.4em; padding-right: 0.4em; background: var(--bg-raised); border-color: var(--rule); transition-delay: calc(var(--hold) + var(--i) * 0.2s); }
+.reveal section.present .tok-row.chop span:nth-child(odd) { border-color: var(--accent); }
+@property --n { syntax: "<integer>"; inherits: false; initial-value: 0; }
+.reveal .tok-count { --n: 0; counter-reset: n var(--n); transition: --n 5.8s linear var(--hold); }
+.reveal .tok-count::before { content: counter(n) " tokens"; }
+.reveal section.present .tok-count { --n: var(--to); }
+
+/* Three-column variant, with a small label above each column. */
+.reveal .cols.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.reveal .turn-label { font-family: var(--font-mono); font-size: 0.75em; color: var(--accent); margin-bottom: 0.2em; }
+.reveal .cols.three { gap: 1em; }
+.reveal .cols.three .chat { gap: 0.3em; margin: 0.2em 0; }
+.reveal .cols.three .chat .m { font-size: 0.62em; padding: 0.35em 0.6em; }
+.reveal .cols.three .chat .m .who { font-size: 0.8em; margin-bottom: 0.1em; }
+.reveal .cols.three pre.code { font-size: 0.46em; white-space: pre-wrap; word-break: break-word; align-self: start; line-height: 1.35; padding: 0.5em 0.6em; margin: 0; margin: 0.2em 0; }
+/* One JSON line per block, so a wrapped line keeps a hanging indent. */
+.reveal pre.code.json .ln { display: block; padding-left: calc(var(--i) * 2ch + 2ch); text-indent: -2ch; }
+.reveal .stats.stack { flex-direction: column; gap: 0.5em; margin: 0; }
+.reveal .cols:has(.stats.stack) { align-items: center; margin-bottom: 0.6em; }
+
+/* .rag-map: the Full Stack Retrieval inventory, drawn once as <symbol id="ragmap">
+   in sections/05-rag.html and reused with <use href="#ragmap">. Styles cannot
+   reach into a <use> clone by selector, but CSS variables inherit into it, so
+   each node reads --o-NAME (opacity) and --c-NAME (colour), --f-NAME (fill).
+     data-done="a b"  nodes already explained: normal ink
+     data-now="c"     the node this slide is about: amber
+   With either attribute present, every node not listed is dimmed. */
+.reveal .rag-map { display: flex; justify-content: center; margin: 0.2em 0; }
+.reveal .rag-map svg { width: 100%; max-height: 510px; }
+.reveal .rag-map:is([data-done],[data-now]) { --o-raw:.16; --o-loaders:.16; --o-docs:.16; --o-index:.16; --o-store:.16; --o-chunks:.16; --o-query:.16; --o-qt:.16; --o-retrieval:.16; --o-relevant:.16; --o-dt:.16; --o-context:.16; --o-llm:.16; --o-prompt:.16; --o-response:.16; }
+.reveal .rag-map[data-done~="raw"] { --o-raw:1; }
+.reveal .rag-map[data-now~="raw"] { --o-raw:1; --c-raw:var(--accent); --f-raw:var(--accent-soft); }
+.reveal .rag-map[data-done~="loaders"] { --o-loaders:1; }
+.reveal .rag-map[data-now~="loaders"] { --o-loaders:1; --c-loaders:var(--accent); --f-loaders:var(--accent-soft); }
+.reveal .rag-map[data-done~="docs"] { --o-docs:1; }
+.reveal .rag-map[data-now~="docs"] { --o-docs:1; --c-docs:var(--accent); --f-docs:var(--accent-soft); }
+.reveal .rag-map[data-done~="index"] { --o-index:1; }
+.reveal .rag-map[data-now~="index"] { --o-index:1; --c-index:var(--accent); --f-index:var(--accent-soft); }
+.reveal .rag-map[data-done~="store"] { --o-store:1; }
+.reveal .rag-map[data-now~="store"] { --o-store:1; --c-store:var(--accent); --f-store:var(--accent-soft); }
+.reveal .rag-map[data-done~="chunks"] { --o-chunks:1; }
+.reveal .rag-map[data-now~="chunks"] { --o-chunks:1; --c-chunks:var(--accent); --f-chunks:var(--accent-soft); }
+.reveal .rag-map[data-done~="query"] { --o-query:1; }
+.reveal .rag-map[data-now~="query"] { --o-query:1; --c-query:var(--accent); --f-query:var(--accent-soft); }
+.reveal .rag-map[data-done~="qt"] { --o-qt:1; }
+.reveal .rag-map[data-now~="qt"] { --o-qt:1; --c-qt:var(--accent); --f-qt:var(--accent-soft); }
+.reveal .rag-map[data-done~="retrieval"] { --o-retrieval:1; }
+.reveal .rag-map[data-now~="retrieval"] { --o-retrieval:1; --c-retrieval:var(--accent); --f-retrieval:var(--accent-soft); }
+.reveal .rag-map[data-done~="relevant"] { --o-relevant:1; }
+.reveal .rag-map[data-now~="relevant"] { --o-relevant:1; --c-relevant:var(--accent); --f-relevant:var(--accent-soft); }
+.reveal .rag-map[data-done~="dt"] { --o-dt:1; }
+.reveal .rag-map[data-now~="dt"] { --o-dt:1; --c-dt:var(--accent); --f-dt:var(--accent-soft); }
+.reveal .rag-map[data-done~="context"] { --o-context:1; }
+.reveal .rag-map[data-now~="context"] { --o-context:1; --c-context:var(--accent); --f-context:var(--accent-soft); }
+.reveal .rag-map[data-done~="llm"] { --o-llm:1; }
+.reveal .rag-map[data-now~="llm"] { --o-llm:1; --c-llm:var(--accent); --f-llm:var(--accent-soft); }
+.reveal .rag-map[data-done~="prompt"] { --o-prompt:1; }
+.reveal .rag-map[data-now~="prompt"] { --o-prompt:1; --c-prompt:var(--accent); --f-prompt:var(--accent-soft); }
+.reveal .rag-map[data-done~="response"] { --o-response:1; }
+.reveal .rag-map[data-now~="response"] { --o-response:1; --c-response:var(--accent); --f-response:var(--accent-soft); }
+.reveal .rag-map .phase { font-family: var(--font-mono); }
+
+/* .ladder: labelled rows, e.g. raw query -> rewritten -> clarified. */
+.reveal .ladder { display: flex; flex-direction: column; gap: 0.6em; margin: 0.5em 0; font-size: 1em; }
+.reveal .ladder .rung .d code { font-size: 0.8em; }
+.reveal .ladder .rung { display: grid; grid-template-columns: 5.5em 1fr; gap: 0.6em; align-items: baseline; }
+.reveal .ladder .rung .k { color: var(--accent); font-weight: 600; }
+.reveal .ladder .rung .d { color: var(--ink-dim); }
+.reveal .ladder .rung .d code { color: var(--data); }
+
+/* .meme-cols: a meme on the left, one .beat on the right, centred. */
+.reveal .cols.meme-cols { grid-template-columns: 1.3fr 1fr; align-items: center; }
+.reveal .cols.meme-cols .meme-img { margin: 0 auto; }
+.reveal .cols.meme-cols .beat { font-size: 0.95em; }
+
+/* .plate-img: a figure lifted from a paper, on a white plate so its own
+   white background reads as intentional on the dark slide. */
+.reveal .plate-img { display: block; margin: 0.2em auto 0.4em; max-height: 450px; max-width: 100%; background: #fff; border-radius: 8px; padding: 6px; }
+
+/* --- chunking: why whole documents fail (05-rag, 5.8) ------------------
+   One small animation per card. The base rules are the END state, and the
+   keyframes only say where things start, so print, thumbnails and reduced
+   motion all show the finished picture. Animations run only on .present,
+   so they replay every time the slide is entered. */
+.reveal .beat .viz { display: block; width: 100%; height: auto; margin: 0.1em 0 0.6em; overflow: visible; }
+.reveal .viz .frame  { fill: var(--bg-sunken); stroke: var(--rule); }
+.reveal .viz .ln     { fill: var(--ink-faint); opacity: 0.7; }
+.reveal .viz .useful { fill: var(--accent); }
+.reveal .viz .arrow  { fill: none; stroke: var(--ink-faint); stroke-width: 2; }
+.reveal .viz .lbl    { font-family: var(--font-sans); font-size: 15px; fill: var(--ink-dim); }
+.reveal .viz .lbl.bad { fill: var(--warn); }
+
+/* too long: the document scrolls past and the vector washes out to grey */
+.reveal .viz-long .scroll { transform: translateY(-290px); }
+.reveal .viz-long .cell   { fill: var(--ink-faint); }
+.reveal section.present .viz-long .scroll { animation: vz-scroll 3.2s ease-in-out var(--d) both; }
+.reveal section.present .viz-long .cell   { animation: vz-dilute 3.2s ease-in var(--d) both; }
+@keyframes vz-scroll { from { transform: translateY(0); } }
+@keyframes vz-dilute { from { fill: var(--accent); } }
+
+/* mixed topics: four topic directions, then their short in-between average */
+.reveal .viz-mixed .topic, .reveal .viz-mixed .avg { transform-box: view-box; transform-origin: 170px 62px; }
+.reveal .viz-mixed .topic { opacity: 0.45; }
+.reveal .viz-mixed .topic line { stroke: var(--ink-dim); stroke-width: 2; }
+.reveal .viz-mixed .avg line   { stroke: var(--warn); stroke-width: 4; }
+.reveal .viz-mixed .head     { fill: var(--ink-dim); }
+.reveal .viz-mixed .head-bad { fill: var(--warn); }
+.reveal .viz-mixed .hub      { fill: var(--ink-dim); }
+.reveal section.present .viz-mixed .topic {
+  animation: vz-grow 0.6s ease-out calc(var(--d) + var(--i) * 0.35s) both,
+             vz-dim 0.6s ease calc(var(--d) + 2.2s) both;
+}
+.reveal section.present .viz-mixed .avg { animation: vz-grow 0.7s cubic-bezier(.3,1.5,.5,1) calc(var(--d) + 2.2s) both; }
+@keyframes vz-grow { from { transform: scale(0); } }
+@keyframes vz-dim  { from { opacity: 1; } }
+
+/* dead weight: the page builds, the whole page gets grabbed, the chrome goes rose */
+.reveal .viz-dead .bp { fill: var(--warn); opacity: 0.45; }
+.reveal .viz-dead .grab rect { fill: none; stroke: var(--warn); stroke-width: 2; stroke-dasharray: 6 4; }
+.reveal .viz-dead .grab { transform-box: view-box; transform-origin: 170px 60px; }
+.reveal section.present .viz-dead .row  { animation: vz-in 0.35s ease-out calc(var(--d) + var(--i) * 0.15s) both; }
+.reveal section.present .viz-dead .grab { animation: vz-grab 0.5s ease-out calc(var(--d) + 1.3s) both; }
+.reveal section.present .viz-dead .bp   { animation: vz-taint 0.6s ease calc(var(--d) + 2s) both; }
+@keyframes vz-in    { from { opacity: 0; transform: translateY(4px); } }
+@keyframes vz-grab  { from { opacity: 0; transform: scale(1.12); } }
+@keyframes vz-taint { from { fill: var(--ink-faint); opacity: 0.7; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal section.present .viz * { animation: none !important; }
+}
+
+/* .wrap-doc: "Don't dump raw chunks". Plays when the slide opens: the bare
+   chunk sits alone, the <doc> tags close in around it, each attribute types
+   itself in (--w is its length in characters, --d its start), then the
+   caption arrives and the labels light up as the provenance it names. */
+.reveal pre.code.wrap-doc .tag { display: inline-block; opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease; }
+.reveal pre.code.wrap-doc .tag.open { transform: translateY(0.9em); }
+.reveal pre.code.wrap-doc .tag.close { transform: translateY(-0.9em); }
+.reveal section.present pre.code.wrap-doc .tag { opacity: 1; transform: none; transition-delay: 1s; }
+.reveal pre.code.wrap-doc .chunk { color: var(--ink); transition: color 0.6s ease; }
+.reveal section.present pre.code.wrap-doc .chunk { color: var(--ink-dim); transition-delay: 1s; }
+.reveal pre.code.wrap-doc .attr {
+  display: inline-block; vertical-align: top; overflow: hidden; white-space: pre;
+  width: 0; position: relative; z-index: 0;
+  transition: width 0s;
+}
+/* The tint skips the attribute's leading space, so it hugs the text. */
+.reveal pre.code.wrap-doc .attr::before {
+  content: ""; position: absolute; z-index: -1; inset: 0.05em 0 0.05em 1ch;
+  border-radius: 4px; background: var(--accent-soft); opacity: 0; transition: opacity 0.6s ease;
+}
+.reveal section.present pre.code.wrap-doc .attr::before { opacity: 1; transition-delay: 4.8s; }
+.reveal section.present pre.code.wrap-doc .attr {
+  width: calc(var(--w) * 1ch);
+  transition: width calc(var(--w) * 0.03s) steps(var(--w)) var(--d);
+}
+.reveal .wrap-doc-say { opacity: 0; transform: translateY(0.4em); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal section.present .wrap-doc-say { opacity: 1; transform: none; transition-delay: 4.6s; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal section.present pre.code.wrap-doc *, .reveal section.present .wrap-doc-say { transition: none !important; }
+}
+
+/* .cut-demo: one short page, cut three ways on the chunking slide. Each demo
+   is a custom fragment, so the text sits plain until the presenter clicks,
+   then the chunks paint in. k1/k2/k3 are the chunk tints; .ov is text that
+   lands in two chunks (overlap); .cut is a mid-word split; .gap.cut is a
+   split between lines; .sim is the similarity to the next sentence. */
+.reveal .beats.cuts { align-items: stretch; }
+.reveal .beats.cuts .beat > p { min-height: 4.5em; }
+.reveal .cut-demo {
+  margin-top: 0.7em; padding: 0.5em 0.7em;
+  background: var(--bg-sunken); border-radius: 3px;
+  font-size: 0.82em; line-height: 1.45;
+  --k1: #f0a35e40; --k2: #6fd0c040; --k3: #b9a6f040;
+}
+.reveal .cut-demo .ln { white-space: nowrap; }
+.reveal .cut-demo .ln > span { border-radius: 2px; }
+.reveal .cut-demo .h { font-weight: 600; color: var(--ink); }
+.reveal .cut-demo .h::before { content: "## "; font-family: var(--font-mono); color: var(--ink-faint); font-weight: 400; }
+
+@keyframes paint-k1 { from { background-color: transparent; } to { background-color: var(--k1); } }
+@keyframes paint-k2 { from { background-color: transparent; } to { background-color: var(--k2); } }
+@keyframes paint-k3 { from { background-color: var(--k2); } to { background-color: var(--k3); } }
+@keyframes paint-k3-fresh { from { background-color: transparent; } to { background-color: var(--k3); } }
+@keyframes paint-ov { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cut-in { from { width: 0; margin: 0; } to { width: 3px; margin: 0 2px; } }
+@keyframes gap-open { from { height: 0; } to { height: 1.1em; } }
+@keyframes gap-in { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Fixed size: three windows slide across, one every 1.2s. */
+.reveal .cut-demo.visible .k1 { animation: paint-k1 0.5s ease both; }
+.reveal .cut-demo.visible .k2 { animation: paint-k2 0.5s ease 1.2s both; }
+.reveal .cut-demo.visible .k3 { animation: paint-k3-fresh 0.5s ease 2.4s both; }
+.reveal .cut-demo .ov { position: relative; }
+.reveal .cut-demo .ov::after {
+  content: ""; position: absolute; inset: 0; border-radius: 2px; opacity: 0;
+  background: repeating-linear-gradient(135deg, #f0a35e80 0 5px, #6fd0c080 5px 10px);
+}
+.reveal .cut-demo .ov2::after { background: repeating-linear-gradient(135deg, #6fd0c080 0 5px, #b9a6f080 5px 10px); }
+.reveal .cut-demo.visible .ov::after { animation: paint-ov 0.5s ease 1.2s both; }
+.reveal .cut-demo.visible .ov2::after { animation-delay: 2.4s; }
+.reveal .cut-demo i.cut {
+  display: inline-block; width: 0; height: 1.15em; vertical-align: -0.2em;
+  background: var(--warn); border-radius: 1px;
+}
+.reveal .cut-demo.visible i.cut { animation: cut-in 0.3s ease var(--d) both; }
+
+/* Recursive and semantic: a dashed rose line between lines, labelled. */
+.reveal .cut-demo .gap { position: relative; height: 0; overflow: hidden; display: flex; align-items: center; gap: 0.4em; }
+.reveal .cut-demo .gap::before {
+  content: ""; flex: 1; border-top: 2px dashed var(--warn);
+  transform: scaleX(0); transform-origin: left;
+}
+.reveal .cut-demo .gap b {
+  font-family: var(--font-mono); font-weight: 400; font-size: 0.8em;
+  color: var(--warn); opacity: 0;
+}
+.reveal .cut-demo.visible .gap { animation: gap-open 0.3s ease var(--d) both; }
+.reveal .cut-demo.visible .gap::before { animation: gap-in 0.4s ease var(--d) both; }
+.reveal .cut-demo.visible .gap b { animation: fade-in 0.3s ease calc(var(--d) + 0.3s) both; }
+/* Recursive: the second chunk is too big, so its last sentence splits off. */
+.reveal .cut-demo.visible .k2.then3 { animation: paint-k2 0.5s ease 0.3s both, paint-k3 0.5s ease 1.9s forwards; }
+.reveal .cut-demo.rec.visible .k2:not(.then3) { animation-delay: 0.3s; }
+/* Semantic: scores appear first, then the cut, then the chunks. */
+.reveal .cut-demo .sim { font-family: var(--font-mono); color: var(--data); opacity: 0; float: right; padding-left: 0.5em; }
+.reveal .cut-demo .sim.low { color: var(--warn); }
+.reveal .cut-demo.visible .sim { animation: fade-in 0.4s ease var(--d) both; }
+.reveal .cut-demo.visible .k1.late { animation-delay: 2.6s; }
+.reveal .cut-demo.visible .k2.late { animation-delay: 2.6s; }
+
+/* .beats.fetch: "Four ways to fetch". Each card carries a tiny worked example
+   (.demo) that is a fragment, so one click shows and plays one card. All
+   timings hang off .visible; stepping back resets them. */
+.reveal .beats.fetch p { min-height: 2.8em; }
+.reveal .beats.fetch .demo {
+  margin-top: 0.8em; padding-top: 0.7em; border-top: 1px dashed var(--rule);
+  font-size: 0.8em; line-height: 1.3; display: flex; flex-direction: column; gap: 0.3em;
+}
+.reveal .demo .q { font-family: var(--font-mono); color: var(--ink); font-size: 0.9em; margin-bottom: 0.15em; }
+.reveal .demo .row { display: grid; grid-template-columns: 1fr auto; gap: 0.5em; align-items: center; color: var(--ink-dim); white-space: nowrap; }
+.reveal .demo .row b { font-family: var(--font-mono); font-weight: 500; color: var(--data); opacity: 0; transition: opacity 0.4s ease; }
+.reveal .demo .row span { transition: color 0.4s ease; }
+
+/* Dense: a similarity bar per chunk grows to its score, the top two light up. */
+.reveal .demo.dense .row { grid-template-columns: 1fr 2.6em auto; }
+.reveal .demo.dense .row i { height: 0.45em; background: var(--data); border-radius: 2px; transform: scaleX(0); transform-origin: left; transition: transform 0.8s ease; }
+.reveal .demo.dense.visible .row i { transform: scaleX(var(--s)); transition-delay: calc(0.5s + var(--i) * 0.35s); }
+.reveal .demo.dense.visible .row b { opacity: 1; transition-delay: calc(0.9s + var(--i) * 0.35s); }
+.reveal .demo.dense.visible .row.hit span { color: var(--ink); transition-delay: 2.2s; }
+
+/* Keyword: matching words get marked one by one, then hit counts. The
+   synonym row scores zero: that is the point. */
+.reveal .demo.kw u { text-decoration: none; border-radius: 3px; padding: 0 0.1em; transition: background-color 0.3s ease, color 0.3s ease; }
+.reveal .demo.kw.visible u { background: var(--accent-soft); color: var(--accent); transition-delay: calc(0.4s + var(--i) * 0.3s); }
+.reveal .demo.kw.visible .row b { opacity: 1; transition-delay: calc(2.1s + var(--i) * 0.3s); }
+.reveal .demo.kw.visible .row.hit span { color: var(--ink); transition-delay: 2.1s; }
+.reveal .demo.kw .row.miss b { color: var(--warn); }
+.reveal .demo.kw.visible .row.miss span { color: var(--warn); transition-delay: 3s; }
+
+/* Hybrid: two ranked lists; docs found by both pulse, then the merged
+   list drops in with them on top. */
+.reveal .demo.hy .lane { display: flex; align-items: center; gap: 0.3em; }
+.reveal .demo.hy em { font-family: var(--font-mono); font-size: 0.85em; color: var(--ink-faint); font-weight: 400; width: 5.6em; }
+.reveal .demo.hy s {
+  text-decoration: none; font-family: var(--font-mono); width: 1.6em; text-align: center;
+  border: 1px solid var(--rule); border-radius: 3px; color: var(--ink-dim);
+  transition: border-color 0.4s ease, color 0.4s ease, background-color 0.4s ease;
+}
+.reveal .demo.hy.visible s.both { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); transition-delay: 0.6s; }
+.reveal .demo.hy .lane.out { margin-top: 0.25em; padding-top: 0.35em; border-top: 1px solid var(--rule); }
+.reveal .demo.hy .lane.out em { color: var(--accent); }
+.reveal .demo.hy .lane.out s { opacity: 0; transform: translateY(-0.6em); color: var(--ink); border-color: var(--ink-faint); transition: opacity 0.4s ease, transform 0.4s ease; }
+.reveal .demo.hy.visible .lane.out s { opacity: 1; transform: none; transition-delay: calc(1.6s + var(--i) * 0.3s); }
+/* D and C each sit in one list only. D (#2 in keyword) outranks C (#3 in
+   dense), so D takes the last slot and C drops: rank fusion, e.g. RRF.
+   D lights up in its source lane as it lands; C fades in both places. */
+.reveal .demo.hy.visible s.solo { border-color: var(--ink-dim); color: var(--ink); transition-delay: 2.2s; }
+.reveal .demo.hy.visible .lane.out s.solo { transition-delay: 2.2s; }
+.reveal .demo.hy.visible s.lost { opacity: 0.55; transition-delay: 2.6s; }
+.reveal .demo.hy .lane.out s.lost { border-style: dashed; border-color: var(--warn); color: var(--warn); }
+.reveal .demo.hy.visible .lane.out s.lost { opacity: 0.7; transition-delay: 2.6s; }
+.reveal .demo.hy s.lost { transition: opacity 0.4s ease, transform 0.4s ease; }
+.reveal .demo.hy .hy-note { font-family: var(--font-mono); font-size: 0.85em; color: var(--accent); opacity: 0; transition: opacity 0.4s ease; }
+.reveal .demo.hy.visible .hy-note { opacity: 1; transition-delay: 3s; }
+
+/* Rerank: five fetched chunks in retriever order get re-scored, slide into
+   the new order, and everything below the cut fades. */
+.reveal .demo.rr .stack { position: relative; height: calc(5 * 1.45em - 0.15em); }
+.reveal .demo.rr .row {
+  position: absolute; left: 0; right: 0; height: 1.3em;
+  transform: translateY(calc(var(--a) * 1.45em));
+  transition: transform 0.9s ease, opacity 0.5s ease;
+}
+.reveal .demo.rr.visible .row { transform: translateY(calc(var(--b) * 1.45em)); transition-delay: 1.8s, 3s; }
+.reveal .demo.rr.visible .row b { opacity: 1; transition-delay: 0.6s; }
+.reveal .demo.rr.visible .row:not(.keep) { opacity: 0.3; }
+.reveal .demo.rr.visible .row.keep span { color: var(--ink); transition-delay: 3s; }
+.reveal .demo.rr .cut { position: absolute; left: 0; right: 0; top: calc(3 * 1.45em - 0.06em); border-top: 2px dashed var(--accent); opacity: 0; transition: opacity 0.4s ease; }
+.reveal .demo.rr .keep-note { font-family: var(--font-mono); font-size: 0.85em; color: var(--accent); opacity: 0; transition: opacity 0.4s ease; }
+.reveal .demo.rr.visible :is(.cut, .keep-note) { opacity: 1; transition-delay: 3s; }
+
+/* --- 06-ethics: slides copied from "Ethical aspects of AI Agents" ------ */
+.reveal .eth-vid { max-height: 300px; max-width: 540px; border-radius: 8px; margin-top: 0.6em; }
+.reveal .eth-row { display: flex; justify-content: center; align-items: center; gap: 1.2em; }
+.reveal .eth-row img, .reveal .eth-row .plate-img { margin: 0; min-width: 0; }
+.reveal .eth-clip { max-height: 500px; border-radius: 8px; }
+.reveal .eth-quote { font-size: 1.1em; line-height: 1.35; margin: 0; border: 0; box-shadow: none; width: auto; font-style: normal; }
+.reveal .eth-quote cite { display: block; margin-top: 0.6em; color: var(--ink-dim); font-size: 0.7em; }
+.reveal .eth-grid { display: flex; justify-content: center; align-items: center; gap: 0.6em; }
+.reveal .eth-grid img { max-height: 480px; border-radius: 6px; margin: 0; }
+.reveal .eth-stack { display: flex; flex-direction: column; gap: 0.6em; }
+.reveal .eth-stack img { max-height: 232px; }
+.reveal .eth-terms { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35em 1.4em; font-size: 0.68em; line-height: 1.3; }
+.reveal .eth-terms p { margin: 0; }
+.reveal .eth-terms b { color: var(--accent); display: block; }
+.reveal .eth-terms + .src { margin-top: 0.8em; }
+
+/* --- about the speaker -------------------------------------------------- */
+
+.reveal .speaker { display: flex; align-items: center; gap: 2.4em; }
+.reveal .speaker-text { flex: 1; text-align: left; }
+.reveal .speaker-text h2 { margin: 0 0 0.5em; }
+.reveal .speaker-points { margin: 0 0 1.2em 1em; font-size: 0.8em; color: var(--ink-dim); }
+.reveal .speaker-points li { margin-bottom: 0.35em; }
+.reveal .speaker-links {
+  display: grid; grid-template-columns: max-content 1fr; gap: 0.45em 1.4em;
+  margin: 0.4em 0 0; font-size: 0.7em;
+}
+.reveal .speaker-links dt {
+  font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--accent); font-size: 0.85em; align-self: center;
+}
+.reveal .speaker-links dd { margin: 0; font-family: var(--font-mono); color: var(--ink); }
+.reveal .speaker-photo {
+  width: 340px; height: 340px; object-fit: cover; border-radius: 50%;
+  border: 6px solid var(--accent); margin: 0; flex: none;
+}
