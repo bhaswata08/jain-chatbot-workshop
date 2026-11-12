@@ -26,7 +26,7 @@
      snapshot). Refund page = 984 words = 1.5% of the KB. Token
      figure ~90,000 is DERIVED (words x ~1.3), marked as such.
      The embedding scatter is a cartoon in 2D; real vectors have
-     384 dimensions (all-MiniLM-L6-v2). Say so.
+     768 dimensions (all-mpnet-base-v2). Say so.
      ============================================================ -->
 
 <section class="act-open">
@@ -263,10 +263,10 @@
     <div>
       <p>Similar meaning → nearby points, even with <em>no shared words</em>.</p>
       <p>"fee back" lands next to "refund rules".</p>
-      <p class="muted small">Drawn in 2D. The model we use outputs 384 numbers per text.</p>
+      <p class="muted small">Drawn in 2D. The model we use outputs 768 numbers per text.</p>
     </div>
   </div>
-  <p class="src">all-MiniLM-L6-v2 (sentence-transformers): 384 dimensions</p>
+  <p class="src">all-mpnet-base-v2 (sentence-transformers): 768 dimensions</p>
 </section>
 
 <section class="act-body">
@@ -469,7 +469,7 @@
 <section class="act-body" id="four-ways">
   <div class="act-tag"><b>Act 5</b> / Retrieval method</div>
   <h2>Four ways to fetch</h2>
-  <aside class="notes">Before each fragment: "BCA fees" vs "computer course fees". Which method finds which? Let them guess, then reveal.</aside>
+  <aside class="notes">Before each fragment: "BCA fees" vs "computer course fees". Which method finds which? Let them guess, then reveal. The lab builds dense, keyword and hybrid; rerank is the next step if they want to go further.</aside>
   <div class="beats four fetch">
     <div class="beat purpose"><h4>Dense</h4><p>Cosine on embeddings. Finds meaning.</p>
       <div class="demo dense fragment">
@@ -495,7 +495,7 @@
         <div class="hy-note">both lists first; D #2 beats C #3</div>
       </div>
     </div>
-    <div class="beat purpose"><h4>Rerank</h4><p>Fetch 20, re-score, keep the best 3–5.</p>
+    <div class="beat purpose"><h4>Rerank</h4><p>Fetch 20, re-score, keep the best 3–5. <em>Not in today's lab.</em></p>
       <div class="demo rr fragment">
         <div class="stack">
           <div class="row keep" style="--a:0;--b:2"><span>chunk 1</span><b>.70</b></div>

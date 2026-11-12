@@ -6,10 +6,11 @@ cites the pages it used.
 
 ## Get the files
 
-The [latest release](https://github.com/bhaswata08/jain-chatbot-workshop/releases/latest) has two files:
+The [latest release](https://github.com/bhaswata08/jain-chatbot-workshop/releases/latest) has three files:
 
 - `deck.html`: the slides in one file. Download it and open it in any browser, offline.
 - `jain_kb.zip`: the JAIN knowledge base the chatbot reads.
+- `notebook.py`: the lab notebook (marimo). It builds the chatbot step by step: loaders, chunking, embeddings, a Chroma vector store, hybrid retrieval and a chat UI.
 
 To load the knowledge base in a molab (marimo) notebook:
 
@@ -24,10 +25,23 @@ urlretrieve(
 zipfile.ZipFile("jain_kb.zip").extractall(".")  # creates kb/
 ```
 
+## Run the lab notebook
+
+Upload `notebook.py` to [molab](https://molab.marimo.io), or run it locally with [uv](https://docs.astral.sh/uv/):
+
+```sh
+uvx marimo edit --sandbox notebook.py
+```
+
+The dependencies are listed at the top of the file, and `--sandbox` installs them.
+Paste your Groq API key (from console.groq.com → API Keys) into the key box at the top.
+The key is never written to the file. The notebook downloads `jain_kb.zip` by itself.
+
 ## What is in the repo
 
 | Path | What it is |
 | --- | --- |
+| `notebook.py` | The lab notebook: a RAG chatbot over `kb/`, built with LangChain, `all-mpnet-base-v2` embeddings and Groq. |
 | `kb/` | The knowledge base: one Markdown file per page, with the source URL in its front matter. `kb/manifest.json` lists every file. |
 | `collect.py`, `sources.toml` | The collector that builds `kb/` and `jain_kb.zip` from the pages listed in `sources.toml`. |
 | `deck/` | The reveal.js slides. Sources are in `deck/sections/`. |
